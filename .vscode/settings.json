@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "sage": "py",
+        "poly.h": "c"
+    }
+}
