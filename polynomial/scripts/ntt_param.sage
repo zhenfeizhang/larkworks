@@ -46,7 +46,7 @@ def print_hots_inv_ntt():
         print(r_inv^e, end = ', ')
     print()
 
-def print_hvc_ntt():
+def print_ntt():
     q_hvc = 202753
 
     P.<x> = PolynomialRing(Zmod(q_hvc))
@@ -61,7 +61,7 @@ def print_hvc_ntt():
         # print(i, e, r^e)
     print()
 
-def print_hvc_inv_ntt():
+def print_inv_ntt():
     q_hvc = 202753
 
     P.<x> = PolynomialRing(Zmod(q_hvc))
@@ -80,7 +80,7 @@ print_hots_ntt()
 print()
 print_hots_inv_ntt()
 print()
-print_hvc_ntt()
+print_ntt()
 print()
-print_hvc_inv_ntt()
+print_inv_ntt()
 
