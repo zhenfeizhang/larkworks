@@ -15,10 +15,12 @@ def CPAPKE_KeyGen(n, k, q, eta_1, eta_2, d_u, d_v):
     A = Matrix(Rq, k, k)
     for i in range(k):
         for j in range(k):
-            # TODO:
-#             A[i,j] = Parse(XOF(rho, j, i))
-            # for now just use a random elem
-            A[i,j] = Rq.random_element()
+            xof = hashlib.shake_128()
+            tv_rho = bytearray(rho)
+            tv_rho.append(i)
+            tv_rho.append(j)
+            xof.update(tv_rho)
+            A[i,j] = parse(xof.digest(128), n, q)
         
     s = Matrix(Rq, k, 1)
     for i in range(k):
