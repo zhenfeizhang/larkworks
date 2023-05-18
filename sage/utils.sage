@@ -32,7 +32,7 @@ def bits_to_bytes(bits):
 def CBD(eta, B):
     f = Rq.zero()
     bits = bytes_to_bits(B)
-    for i in range(255):
+    for i in range(256):
         a = sum([bits[2*i*eta + j] for j in range(eta)])
         b = sum([bits[2*i*eta + eta + j] for j in range(eta)])
         f_i = a - b
