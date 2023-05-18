@@ -12,9 +12,10 @@ arithmetic backend for larkworks
 - [x] `decode_poly`
 - [x] `encode` (a vector of polys)
 - [x] `br` (bit reversal)
+- [x] `parse`
 - [ ] `NTT`
 - [ ] `INTT`
-- [ ] `CPAPKE_KeyGen` (almost there)
+- [x] `CPAPKE_KeyGen` (almost there)
 - [ ] `CPAPKE_Enc`
 - [ ] `CPAPKE_Dec`
 - [ ] `CCAKEM_KeyGen`
