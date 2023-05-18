@@ -1,3 +1,25 @@
+# Parse byte stream B into an element of R_q
+def parse(B, n, q):
+    f = Rq.zero()
+    i = 0
+    j = 0
+    # The 2nd condition - on `i` - is not specified in the spec, but must be assumed for arbitrary length B. Following the Rust impl: <https://github.com/Argyle-Software/kyber/blob/e3d5a09e4423443daa6c5da3b1a321a31b9a35da/src/reference/indcpa.rs#L104>
+    while j < n and i+3 < len(B):
+        # we can OR the two sides since RHS's last 8 bits are 0 and LHS is a byte < 256
+        d1 = B[i] | ((B[i+1] % 16) >> 8)
+        d2 = (B[i+1] >> 4) + (B[i+2] << 4)
+        if d1 < q:
+            f_j = d1
+            j += 1
+        if d2 < q and j < n:
+            f_j = d2
+            j += 1
+        i += 3
+        f += f_j * x**j
+
+    return f
+
+
 # Convert byte array to bits. Returns list of bits
 def bytes_to_bits(byte_array):
     if not all(0 <= byte <= 255 for byte in byte_array):
