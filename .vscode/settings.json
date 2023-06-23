@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "sage": "py",
-        "poly.h": "c"
-    },
-    "rust-analyzer.linkedProjects": [
-        "./polynomial/Cargo.toml"
-    ]
-}

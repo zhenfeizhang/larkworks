@@ -1,0 +1,22 @@
+[package]
+name = "lark-arithmetic"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ark-std = "0.4.0"
+rand = "0.8"
+rand_chacha = "0.3.0"
+rayon = "1.5.0"
+sha2 = "0.10"
+log = { version = "0.4", features = ["std", "serde"] }
+env_logger = { version = "0.10" }
+ff = "0.13"
+subtle = "2.4"
+
+[features]
+# default = [ ]
+default = [ "parallel" ]
+parallel = [] 
