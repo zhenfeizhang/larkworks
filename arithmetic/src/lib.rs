@@ -5,6 +5,9 @@ mod polynomial;
 mod ring;
 mod vector;
 
+#[cfg(test)]
+mod tests;
+
 mod prelude;
 
 pub use prelude::*;

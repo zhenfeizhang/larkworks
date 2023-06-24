@@ -7,14 +7,18 @@ edition = "2021"
 
 [dependencies]
 ark-std = "0.4.0"
+env_logger = { version = "0.10" }
+ff = "0.13"
+log = { version = "0.4", features = ["std", "serde"] }
+num-bigint = { version = "0.4", default-features = false }
 rand = "0.8"
 rand_chacha = "0.3.0"
 rayon = "1.5.0"
 sha2 = "0.10"
-log = { version = "0.4", features = ["std", "serde"] }
-env_logger = { version = "0.10" }
-ff = "0.13"
 subtle = "2.4"
+
+[dev-dependencies]
+rand_xorshift = "0.3"
 
 [features]
 # default = [ ]

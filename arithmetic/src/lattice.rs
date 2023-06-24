@@ -14,7 +14,7 @@ pub trait Lattice {
     fn dimension(&self) -> usize;
 
     /// Build a lattice from a basis
-    fn from_bases(basis: &Self::Basis) ->Self;
+    fn from_bases(basis: &Self::Basis) -> Self;
 
     /// extract a bases for the lattice
     fn bases(&self) -> Self::Basis;
@@ -49,7 +49,7 @@ pub trait IdealLattice: Lattice {
     type Ring;
 
     /// Build the lattice from the ring
-    fn from_ring_element(elem: &Self::Ring) ->Self;
+    fn from_ring_element(elem: &Self::Ring) -> Self;
 }
 
 pub trait ModularLattice: Lattice {
@@ -60,5 +60,5 @@ pub trait ModularLattice: Lattice {
     fn rank(&self) -> usize;
 
     /// Build the lattice from the ring
-    fn from_ring_elements(elem: &[Self::Ring]) ->Self;
+    fn from_ring_elements(elem: &[Self::Ring]) -> Self;
 }

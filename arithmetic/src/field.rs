@@ -1,5 +1,18 @@
 //! Field APIs.
 
+/// Kyber's field
+mod f3329;
+
+/// Falcon's field
+mod f12289;
+
+/// Dilithium's field
+mod f8380417;
+
+
+/// Useful marcos
+mod macros;
+
 /// larkwork's field.
 pub trait Field: ff::Field + From<u64> + Into<u64> {}
 
