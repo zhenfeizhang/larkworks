@@ -5,7 +5,7 @@ use ff::Field as FfField;
 use rand::RngCore;
 use subtle::{Choice, ConditionallySelectable, ConstantTimeEq, CtOption};
 
-use crate::{field_common, Field};
+use crate::{field_common, Field, PrimeField};
 
 #[derive(Debug, Copy, Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 pub struct F12289(u16);
@@ -65,6 +65,52 @@ impl Neg for F12289 {
 field_common!(F12289, MODULUS, u16);
 
 impl Field for F12289 {}
+
+impl ff::PrimeField for F12289 {
+    const MODULUS: &'static str = "12289";
+    const NUM_BITS: u32 = 14;
+    const CAPACITY: u32 = 13;
+    /// 1/2 = 6145
+    const TWO_INV: Self = Self(6145);
+    /// R = Zmod(12289)
+    /// R.multiplicative_generator()           
+    /// 11
+    const MULTIPLICATIVE_GENERATOR: Self = Self(11);
+    const S: u32 = 12;
+
+    /// 7^(2^12) == 1
+    const ROOT_OF_UNITY: Self = Self(7);
+    /// 1/7 == 8778
+    const ROOT_OF_UNITY_INV: Self = Self(8778);
+    /// 11^(2^12) == 6240
+    const DELTA: Self = Self(6240);
+
+    type Repr = [u8; 2];
+
+    fn from_repr(repr: Self::Repr) -> CtOption<Self> {
+        let tmp = repr[0] as u16 + (repr[1] as u16) << 8;
+        CtOption::new(Self(tmp), Choice::from(1))
+    }
+
+    fn to_repr(&self) -> Self::Repr {
+        [(self.0 & 0xFF) as u8, (self.0 >> 8) as u8]
+    }
+
+    fn is_odd(&self) -> Choice {
+        Choice::from((self.0 & 1) as u8)
+    }
+}
+
+impl PrimeField for F12289 {
+    /// we wrap a u16 so there is no lifted value
+    fn lift(&self) -> Self {
+        unimplemented!()
+    }
+
+    fn normalize(&self) -> Self {
+        Self(self.0 % MODULUS)
+    }
+}
 
 #[cfg(test)]
 mod tests {

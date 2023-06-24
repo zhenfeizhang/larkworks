@@ -9,7 +9,6 @@ mod f12289;
 /// Dilithium's field
 mod f8380417;
 
-
 /// Useful marcos
 mod macros;
 
