@@ -13,10 +13,22 @@ use sha2::{Digest, Sha256};
 
 use crate::Field;
 
+/// core implementation of polynomial traits
+mod core;
+/// Kyber's polynomial
+mod poly3329;
+
+pub use poly3329::Poly3329;
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Polynomial<F: Field, const DEGREE: usize> {
+    coeffs: [F; DEGREE],
+}
+
 /// larkwork's polynomial trait
 ///
 /// A polynomial has its coefficients over F.
-pub trait Polynomial<F: Field>:
+pub trait PolynomialOps<F: Field>:
     Sized
     + Eq
     + Copy
@@ -96,15 +108,15 @@ pub trait Polynomial<F: Field>:
     fn from_coefficients_vec_unchecked(coeff: Vec<F>) -> Self;
 }
 
-pub trait SparsePolynomial<F: Field>: Polynomial<F> {
+pub trait SparsePolynomial<F: Field>: PolynomialOps<F> {
     type Error;
 
     /// Convert from a polynomial.
     /// Returns an error if the original polynomial is not sparse.
-    fn from_poly<P: Polynomial<F>>(_: &P) -> Result<Self, Self::Error>;
+    fn from_poly<P: PolynomialOps<F>>(_: &P) -> Result<Self, Self::Error>;
 
     /// Convert self into a polynomial.
-    fn into_poly<P: Polynomial<F>>(&self) -> P;
+    fn into_poly<P: PolynomialOps<F>>(&self) -> P;
 
     /// Sample a random ternary polynomial with a fixed weight
     fn random_balanced_ternary(rng: impl RngCore, half_weight: usize) -> Self;

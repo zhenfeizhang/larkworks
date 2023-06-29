@@ -8,13 +8,13 @@ use std::{
 
 use rand::RngCore;
 
-use crate::{field::NTTField, polynomial::Polynomial};
+use crate::{field::NTTField, polynomial::PolynomialOps};
 
 /// A ring element is a polynomial that also allows for multiplication.
 // Although in theory a ring can work on non-NTT friendly field,
 // we restrict it to NTTField for convenience.
 pub trait RingElement<F: NTTField>:
-    Polynomial<F>
+    PolynomialOps<F>
     + Mul<Output = Self>
     + Product
     + MulAssign

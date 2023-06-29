@@ -3,6 +3,12 @@ macro_rules! field_common {
     (
         $field:ident, $modulus:ident, $primitive_type:ident
     ) => {
+        impl std::fmt::Display for $field {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+                write!(f, "{}", self.0)
+            }
+        }
+
         impl<'b> Sub<&'b $field> for $field {
             type Output = $field;
 

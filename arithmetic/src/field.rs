@@ -1,19 +1,21 @@
 //! Field APIs.
 
+use std::fmt::Display;
+
 /// Kyber's field
-mod f3329;
+pub mod f3329;
 
 /// Falcon's field
-mod f12289;
+pub mod f12289;
 
 /// Dilithium's field
-mod f8380417;
+pub mod f8380417;
 
 /// Useful marcos
 mod macros;
 
 /// larkwork's field.
-pub trait Field: ff::Field + From<u64> + Into<u64> {}
+pub trait Field: ff::Field + Display + From<u64> + Into<u64> {}
 
 /// larkwork's prime field.
 pub trait PrimeField: ff::PrimeField + Field {
