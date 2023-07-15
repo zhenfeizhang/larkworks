@@ -1,3 +1,4 @@
+/// macro to implement common arithmetic of field types
 #[macro_export]
 macro_rules! field_common {
     (

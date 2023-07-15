@@ -20,6 +20,7 @@ mod poly3329;
 
 pub use poly3329::Poly3329;
 
+/// A general polynomial in coefficient representation.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Polynomial<F: Field, const DEGREE: usize> {
     coeffs: [F; DEGREE],
@@ -47,7 +48,9 @@ pub trait PolynomialOps<F: Field>:
     + for<'a> SubAssign<&'a Self>
     + for<'a> Sum<&'a Self>
 {
+    /// Zero element (additive identity)
     const ZERO: Self;
+    /// One element (multiplicative identity)
     const ONE: Self;
 
     /// sample a uniformly random polynomial over modulus
@@ -108,7 +111,9 @@ pub trait PolynomialOps<F: Field>:
     fn from_coefficients_vec_unchecked(coeff: Vec<F>) -> Self;
 }
 
+/// Represents a sparse polynomial
 pub trait SparsePolynomial<F: Field>: PolynomialOps<F> {
+    /// Error type
     type Error;
 
     /// Convert from a polynomial.

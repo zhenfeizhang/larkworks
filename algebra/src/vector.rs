@@ -80,11 +80,13 @@ pub trait Vector<F: Field>:
 
 /// Associating the vector with a lattice
 pub trait LatticeVector<F: Field>: Vector<F> {
+    /// parameter for the lattice
     type LatticeParam;
 }
 
 /// Associating the vector with an NTT domain and a ring
 pub trait NTTVector<F: NTTField>: Vector<F> {
+    /// type of ring elements used in the NTT
     type RingElement: RingElement<F>;
 
     /// Build an NTT vector from a ring element.

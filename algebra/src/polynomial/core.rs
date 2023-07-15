@@ -1,9 +1,9 @@
 use std::{
     fmt::{Display, Formatter, Result},
-    ops::{Add, AddAssign, Mul},
+    ops::{Add, AddAssign},
 };
 
-use crate::{Field, Polynomial, PolynomialOps, PrimeField};
+use crate::{Field, Polynomial};
 
 impl<F: Field, const DEGREE: usize> Default for Polynomial<F, DEGREE> {
     fn default() -> Self {

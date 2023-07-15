@@ -22,6 +22,8 @@ pub trait RingElement<F: NTTField>:
     + for<'a> Product<&'a Self>
     + for<'a> MulAssign<&'a Self>
 {
+    /// Degree of ring polynomial
+    // FIXME: (alex) should we call this trait PolynomialRing instead?
     const DEGREE: usize;
 
     /// Parameters that define the ring.
