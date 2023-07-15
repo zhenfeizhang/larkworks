@@ -27,4 +27,10 @@ pub trait PrimeField: ff::PrimeField + Field {
 }
 
 /// larkwork's NTT friendly field.
-pub trait NTTField: PrimeField {}
+pub trait NTTField: PrimeField {
+    /// The generator of the multiplicative group of the field
+    const GENERATOR: Self;
+
+    /// Returns the root of unity of order n, if one exists.
+    fn get_root_of_unity(n: u64) -> Option<Self>;
+}

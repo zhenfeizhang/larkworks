@@ -67,17 +67,9 @@ pub trait Matrix:
 }
 
 /// An anti-circulant matrix can be obtained from a ring element
-pub trait AnitCirculantMatrix<R>: Matrix
+pub trait AnitCirculantMatrix<R>: Matrix + From<R> + Into<R>
 where
     R: RingElement<Self::Element>,
     Self::Element: NTTField,
 {
-    /// Build an anti-circulant matrix from a ring element
-    fn from_ring_element(elem: &R) -> Self;
-
-    /// Convert a ring element into an anti-circuit matrix
-    fn into_ring_element(&self) -> R {
-        // Extract the first row element
-        R::from_coefficients_unchecked(self.row_vectors().next().unwrap())
-    }
 }

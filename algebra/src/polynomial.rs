@@ -121,7 +121,7 @@ pub trait SparsePolynomial<F: Field>: PolynomialOps<F> {
     fn from_poly<P: PolynomialOps<F>>(_: &P) -> Result<Self, Self::Error>;
 
     /// Convert self into a polynomial.
-    fn into_poly<P: PolynomialOps<F>>(&self) -> P;
+    fn into_poly<P: PolynomialOps<F>>(self) -> P;
 
     /// Sample a random ternary polynomial with a fixed weight
     fn random_balanced_ternary(rng: impl RngCore, half_weight: usize) -> Self;

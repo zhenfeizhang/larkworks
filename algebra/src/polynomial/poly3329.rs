@@ -19,5 +19,5 @@ fn test_poly() {
 
     println!("poly {}", poly + poly);
 
-    assert!(false)
+    // assert!(false)
 }

@@ -85,13 +85,9 @@ pub trait LatticeVector<F: Field>: Vector<F> {
 }
 
 /// Associating the vector with an NTT domain and a ring
-pub trait NTTVector<F: NTTField>: Vector<F> {
+pub trait NTTVector<F: NTTField>:
+    Vector<F> + From<Self::RingElement> + Into<Self::RingElement>
+{
     /// type of ring elements used in the NTT
     type RingElement: RingElement<F>;
-
-    /// Build an NTT vector from a ring element.
-    fn from_ring_element(_: &Self::RingElement) -> Self;
-
-    /// Convert NTT vector to a ring element.
-    fn into_ring_element(&self) -> Self::RingElement;
 }

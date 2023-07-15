@@ -19,7 +19,7 @@ impl<F: Field, const DEGREE: usize> Display for Polynomial<F, DEGREE> {
         for (i, e) in self.coeffs.iter().skip(1).take(DEGREE - 2).enumerate() {
             write!(f, " + {}*x^{}", e, i + 1)?;
             if i % 8 == 6 {
-                writeln!(f, "")?;
+                writeln!(f)?;
             }
         }
         writeln!(f, " + {}*x^{}", self.coeffs[DEGREE - 1], DEGREE - 1)
@@ -60,7 +60,7 @@ impl<F: Field, const DEGREE: usize> AddAssign for Polynomial<F, DEGREE> {
 impl<'a, F: Field, const DEGREE: usize> AddAssign<&'a Self> for Polynomial<F, DEGREE> {
     // Coefficient wise additions without mod reduction.
     fn add_assign(&mut self, rhs: &'a Self) {
-        *self += *self + *rhs;
+        *self += *rhs;
     }
 }
 

@@ -88,7 +88,7 @@ impl ff::PrimeField for F12289 {
     type Repr = [u8; 2];
 
     fn from_repr(repr: Self::Repr) -> CtOption<Self> {
-        let tmp = repr[0] as u16 + (repr[1] as u16) << 8;
+        let tmp = (repr[0] as u16 + (repr[1] as u16)) << 8;
         CtOption::new(Self(tmp), Choice::from(1))
     }
 

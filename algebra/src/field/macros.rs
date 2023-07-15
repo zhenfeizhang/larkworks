@@ -119,9 +119,9 @@ macro_rules! field_common {
             }
         }
 
-        impl Into<u64> for $field {
-            fn into(self) -> u64 {
-                self.0 as u64
+        impl From<$field> for u64 {
+            fn from(value: $field) -> Self {
+                value.0 as u64
             }
         }
 
