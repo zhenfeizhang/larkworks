@@ -1,4 +1,17 @@
 [workspace]
 members = [
-    "polynomial"
+    "algebra"
 ]
+
+[workspace.package]
+version = "0.1.0"
+authors = [
+    "Zhenfei Zhang <zhangzhenfei@gmail.com>",
+    "Alex Xiong <alex.xiong.tech@gmail.com>",
+    "Marcin Górny <meow@hungrycats.studio>"
+]
+edition = "2021"
+license = "" # Decide on license in the future
+rust-version = "1.70.0"
+homepage = "https://github.com/larkworks/larkworks"
+repository = "https://github.com/larkworks/larkworks"
