@@ -1,9 +1,10 @@
 [package]
-name = "lark-arithmetic"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+name = "lark-algebra"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+rust-version = { workspace = true }
 
 [dependencies]
 ark-std = "0.4.0"
@@ -23,4 +24,4 @@ rand_xorshift = "0.3"
 [features]
 # default = [ ]
 default = [ "parallel" ]
-parallel = [] 
+parallel = []
