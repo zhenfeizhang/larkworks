@@ -58,7 +58,9 @@ impl Neg for F3329 {
 
 field_common!(F3329, MODULUS, u16);
 
-impl Field for F3329 {}
+impl Field for F3329 {
+    type PrimitiveType = u32;
+}
 
 #[cfg(test)]
 mod tests {

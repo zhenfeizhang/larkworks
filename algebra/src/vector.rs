@@ -7,7 +7,7 @@ use std::{
 
 use rand::RngCore;
 
-use crate::{field::NTTField, Field, RingElement};
+use crate::{field::NTTField, Field, PolynomialRing};
 
 /// larkwork's vector trait
 pub trait Vector<F: Field>:
@@ -89,5 +89,5 @@ pub trait NTTVector<F: NTTField>:
     Vector<F> + From<Self::RingElement> + Into<Self::RingElement>
 {
     /// type of ring elements used in the NTT
-    type RingElement: RingElement<F>;
+    type RingElement: PolynomialRing<F>;
 }

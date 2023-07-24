@@ -1,6 +1,7 @@
 [workspace]
 members = [
-    "algebra"
+    "algebra",
+    "primitives"
 ]
 
 [workspace.package]

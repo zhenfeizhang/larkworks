@@ -7,7 +7,7 @@ use std::{
     slice::Iter,
 };
 
-use crate::{field::NTTField, RingElement};
+use crate::{field::NTTField, PolynomialRing};
 
 pub trait Matrix:
     Sized
@@ -69,7 +69,7 @@ pub trait Matrix:
 /// An anti-circulant matrix can be obtained from a ring element
 pub trait AnitCirculantMatrix<R>: Matrix + From<R> + Into<R>
 where
-    R: RingElement<Self::Element>,
+    R: PolynomialRing<Self::Element>,
     Self::Element: NTTField,
 {
 }

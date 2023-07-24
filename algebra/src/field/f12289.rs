@@ -64,7 +64,9 @@ impl Neg for F12289 {
 
 field_common!(F12289, MODULUS, u16);
 
-impl Field for F12289 {}
+impl Field for F12289 {
+    type PrimitiveType = u16;
+}
 
 impl ff::PrimeField for F12289 {
     const MODULUS: &'static str = "12289";
@@ -102,6 +104,8 @@ impl ff::PrimeField for F12289 {
 }
 
 impl PrimeField for F12289 {
+    const MODULUS: Self::PrimitiveType = MODULUS;
+
     /// we wrap a u16 so there is no lifted value
     fn lift(&self) -> Self {
         unimplemented!()
