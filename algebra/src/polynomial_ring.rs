@@ -10,10 +10,13 @@ use rand::RngCore;
 
 use crate::{field::NTTField, polynomial::PolynomialOps};
 
+mod core;
+mod ring202753;
+
 /// A ring element is a polynomial that also allows for multiplication.
 // Although in theory a ring can work on non-NTT friendly field,
 // we restrict it to NTTField for convenience.
-pub trait PolynomialRing<F: NTTField>:
+pub trait PolynomialRing<F: NTTField, const DEGREE: usize>:
     PolynomialOps<F>
     + Mul<Output = Self>
     + Product
@@ -22,10 +25,6 @@ pub trait PolynomialRing<F: NTTField>:
     + for<'a> Product<&'a Self>
     + for<'a> MulAssign<&'a Self>
 {
-    /// Degree of ring polynomial
-    // FIXME: (alex) should we call this trait PolynomialRing instead?
-    const DEGREE: usize;
-
     /// Parameters that define the ring.
     /// For example `Z_p[x]/(x^N+1)`
     type RingParam;

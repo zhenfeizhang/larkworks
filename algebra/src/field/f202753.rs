@@ -12,12 +12,6 @@ pub struct F202753(i32);
 
 pub const MODULUS: i32 = 202753;
 
-// // T * 2^s = 1
-// const T: u16 = 3;
-// const S: u16 = 12;
-// //
-// const Q_OVER_TWO_MINUS_ONE: u16 = 6143;
-
 impl Add for F202753 {
     type Output = Self;
 

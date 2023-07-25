@@ -15,13 +15,16 @@ use crate::Field;
 
 /// core implementation of polynomial traits
 mod core;
+/// Chipmunl's polynomial
+mod poly202753;
 /// Kyber's polynomial
 mod poly3329;
 
+pub use poly202753::Poly202753;
 pub use poly3329::Poly3329;
 
 /// A general polynomial in coefficient representation.
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Polynomial<F: Field, const DEGREE: usize> {
     coeffs: [F; DEGREE],
 }

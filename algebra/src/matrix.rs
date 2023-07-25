@@ -67,9 +67,9 @@ pub trait Matrix:
 }
 
 /// An anti-circulant matrix can be obtained from a ring element
-pub trait AnitCirculantMatrix<R>: Matrix + From<R> + Into<R>
+pub trait AnitCirculantMatrix<R, const DEGREE: usize>: Matrix + From<R> + Into<R>
 where
-    R: PolynomialRing<Self::Element>,
+    R: PolynomialRing<Self::Element, DEGREE>,
     Self::Element: NTTField,
 {
 }

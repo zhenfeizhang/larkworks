@@ -85,9 +85,9 @@ pub trait LatticeVector<F: Field>: Vector<F> {
 }
 
 /// Associating the vector with an NTT domain and a ring
-pub trait NTTVector<F: NTTField>:
+pub trait NTTVector<F: NTTField, const DIM: usize>:
     Vector<F> + From<Self::RingElement> + Into<Self::RingElement>
 {
     /// type of ring elements used in the NTT
-    type RingElement: PolynomialRing<F>;
+    type RingElement: PolynomialRing<F, DIM>;
 }
