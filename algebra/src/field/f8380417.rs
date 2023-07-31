@@ -12,12 +12,6 @@ pub struct F8380417(u32);
 
 pub const MODULUS: u32 = 8380417;
 
-// // T * 2^s = 1
-// const T: u16 = 3;
-// const S: u16 = 12;
-// //
-// const Q_OVER_TWO_MINUS_ONE: u16 = 6143;
-
 impl Add for F8380417 {
     type Output = Self;
 
