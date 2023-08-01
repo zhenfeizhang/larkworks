@@ -8,12 +8,21 @@ use std::{
 
 use rand::RngCore;
 
-use crate::{field::NTTField, polynomial::PolynomialOps};
+use crate::{field::NTTField, polynomial::PolynomialOps, Polynomial};
+
+mod core;
+mod ring12289;
+
+/// A general element in a polynomial ring, in its coefficient representation.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct PolynomialRing<F: NTTField, const DEGREE: usize> {
+    pub(crate) poly: Polynomial<F, DEGREE>,
+}
 
 /// A ring element is a polynomial that also allows for multiplication.
 // Although in theory a ring can work on non-NTT friendly field,
 // we restrict it to NTTField for convenience.
-pub trait RingElement<F: NTTField>:
+pub trait PolynomialRingOps<F: NTTField>:
     PolynomialOps<F>
     + Mul<Output = Self>
     + Product

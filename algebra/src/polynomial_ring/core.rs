@@ -7,27 +7,27 @@ use std::{
 
 use rand::RngCore;
 
-use crate::{Field, Polynomial, PolynomialOps};
+use crate::{field::NTTField, Polynomial, PolynomialOps, PolynomialRing, PolynomialRingOps};
 
-impl<F: Field, const DEGREE: usize> Default for Polynomial<F, DEGREE> {
+impl<F: NTTField, const DEGREE: usize> Default for PolynomialRing<F, DEGREE> {
     fn default() -> Self {
         Self {
-            coeffs: [F::default(); DEGREE],
+            poly: Polynomial::default(),
         }
     }
 }
 
-impl<F: Field, const DEGREE: usize> Display for Polynomial<F, DEGREE> {
+impl<F: NTTField, const DEGREE: usize> Display for PolynomialRing<F, DEGREE> {
     fn fmt(&self, f: &mut Formatter) -> Result {
-        writeln!(f, "Polynomial:");
-        write!(f, "{}", self.coeffs[0])?;
-        for (i, e) in self.coeffs.iter().skip(1).take(DEGREE - 2).enumerate() {
+        writeln!(f, "Polynomial ring:");
+        write!(f, "{}", self.poly.coeffs[0])?;
+        for (i, e) in self.poly.coeffs.iter().skip(1).take(DEGREE - 2).enumerate() {
             write!(f, " + {}*x^{}", e, i + 1)?;
             if i % 8 == 6 {
                 writeln!(f)?;
             }
         }
-        writeln!(f, " + {}*x^{}", self.coeffs[DEGREE - 1], DEGREE - 1)
+        writeln!(f, " + {}*x^{}", self.poly.coeffs[DEGREE - 1], DEGREE - 1)
     }
 }
 
@@ -36,22 +36,23 @@ impl<F: Field, const DEGREE: usize> Display for Polynomial<F, DEGREE> {
 // ===========================
 
 /// todo! use macro. repeated pattern: poly add
-impl<F: Field, const DEGREE: usize> Add for Polynomial<F, DEGREE> {
+impl<F: NTTField, const DEGREE: usize> Add for PolynomialRing<F, DEGREE> {
     type Output = Self;
 
-    // Coefficient wise additions without mod reduction.
+    // Coefficient wise additions with mod reduction.
     fn add(self, other: Self) -> Self {
         let mut res = self;
         // TODO: parallel iterator
-        res.coeffs
+        res.poly
+            .coeffs
             .iter_mut()
-            .zip(other.coeffs.iter())
+            .zip(other.poly.coeffs.iter())
             .for_each(|(x, y)| *x += *y);
         res
     }
 }
 
-impl<'a, F: Field, const DEGREE: usize> Add<&'a Self> for Polynomial<F, DEGREE> {
+impl<'a, F: NTTField, const DEGREE: usize> Add<&'a Self> for PolynomialRing<F, DEGREE> {
     type Output = Self;
 
     // Coefficient wise additions without mod reduction.
@@ -60,14 +61,14 @@ impl<'a, F: Field, const DEGREE: usize> Add<&'a Self> for Polynomial<F, DEGREE> 
     }
 }
 
-impl<F: Field, const DEGREE: usize> AddAssign for Polynomial<F, DEGREE> {
+impl<F: NTTField, const DEGREE: usize> AddAssign for PolynomialRing<F, DEGREE> {
     // Coefficient wise additions without mod reduction.
     fn add_assign(&mut self, rhs: Self) {
         *self = *self + rhs;
     }
 }
 
-impl<'a, F: Field, const DEGREE: usize> AddAssign<&'a Self> for Polynomial<F, DEGREE> {
+impl<'a, F: NTTField, const DEGREE: usize> AddAssign<&'a Self> for PolynomialRing<F, DEGREE> {
     // Coefficient wise additions without mod reduction.
     fn add_assign(&mut self, rhs: &'a Self) {
         *self += *rhs;
@@ -77,22 +78,23 @@ impl<'a, F: Field, const DEGREE: usize> AddAssign<&'a Self> for Polynomial<F, DE
 // ===========================
 // subtract
 // ===========================
-impl<F: Field, const DEGREE: usize> Sub for Polynomial<F, DEGREE> {
+impl<F: NTTField, const DEGREE: usize> Sub for PolynomialRing<F, DEGREE> {
     type Output = Self;
 
     // Coefficient wise additions with mod reduction.
     fn sub(self, other: Self) -> Self {
         let mut res = self;
         // TODO: parallel iterator
-        res.coeffs
+        res.poly
+            .coeffs
             .iter_mut()
-            .zip(other.coeffs.iter())
+            .zip(other.poly.coeffs.iter())
             .for_each(|(x, y)| *x -= *y);
         res
     }
 }
 
-impl<'a, F: Field, const DEGREE: usize> Sub<&'a Self> for Polynomial<F, DEGREE> {
+impl<'a, F: NTTField, const DEGREE: usize> Sub<&'a Self> for PolynomialRing<F, DEGREE> {
     type Output = Self;
 
     // Coefficient wise subtractions without mod reduction.
@@ -101,14 +103,14 @@ impl<'a, F: Field, const DEGREE: usize> Sub<&'a Self> for Polynomial<F, DEGREE> 
     }
 }
 
-impl<F: Field, const DEGREE: usize> SubAssign for Polynomial<F, DEGREE> {
+impl<F: NTTField, const DEGREE: usize> SubAssign for PolynomialRing<F, DEGREE> {
     // Coefficient wise subtractions without mod reduction.
     fn sub_assign(&mut self, rhs: Self) {
         *self = *self - rhs;
     }
 }
 
-impl<'a, F: Field, const DEGREE: usize> SubAssign<&'a Self> for Polynomial<F, DEGREE> {
+impl<'a, F: NTTField, const DEGREE: usize> SubAssign<&'a Self> for PolynomialRing<F, DEGREE> {
     // Coefficient wise subtractions without mod reduction.
     fn sub_assign(&mut self, rhs: &'a Self) {
         *self -= *rhs;
@@ -118,19 +120,19 @@ impl<'a, F: Field, const DEGREE: usize> SubAssign<&'a Self> for Polynomial<F, DE
 // ===========================
 // neg
 // ===========================
-impl<F: Field, const DEGREE: usize> Neg for Polynomial<F, DEGREE> {
+impl<F: NTTField, const DEGREE: usize> Neg for PolynomialRing<F, DEGREE> {
     type Output = Self;
     fn neg(self) -> Self::Output {
         let mut res = self;
         // TODO: parallel iterator
-        res.coeffs.iter_mut().for_each(|x| *x = -*x);
+        res.poly.coeffs.iter_mut().for_each(|x| *x = -*x);
         res
     }
 }
 
-impl<F, T, const DEGREE: usize> Sum<T> for Polynomial<F, DEGREE>
+impl<F, T, const DEGREE: usize> Sum<T> for PolynomialRing<F, DEGREE>
 where
-    F: Field,
+    F: NTTField,
     T: core::borrow::Borrow<Self>,
 {
     fn sum<I>(iter: I) -> Self
@@ -141,14 +143,17 @@ where
     }
 }
 
-impl<F: Field, const DEGREE: usize> PolynomialOps<F> for Polynomial<F, DEGREE> {
+impl<F: NTTField, const DEGREE: usize> PolynomialOps<F> for PolynomialRing<F, DEGREE> {
     /// Zero element (additive identity)
     fn zero() -> Self {
         todo!()
     }
+
     /// One element (multiplicative identity)
     fn one() -> Self {
-        todo!()
+        Self {
+            poly: Polynomial::one(),
+        }
     }
     /// sample a uniformly random polynomial over modulus
     /// if modulus is None, over the modulus of F
@@ -195,3 +200,5 @@ impl<F: Field, const DEGREE: usize> PolynomialOps<F> for Polynomial<F, DEGREE> {
         todo!()
     }
 }
+
+// impl<F: NTTField, const DEGREE: usize> PolynomialRingOps<F> for PolynomialRing<F, DEGREE> {}

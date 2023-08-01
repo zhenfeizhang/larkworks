@@ -15,15 +15,17 @@ use crate::Field;
 
 /// core implementation of polynomial traits
 mod core;
+/// Falcon's polynomial
+mod poly12289;
 /// Kyber's polynomial
 mod poly3329;
 
 pub use poly3329::Poly3329;
 
 /// A general polynomial in coefficient representation.
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Polynomial<F: Field, const DEGREE: usize> {
-    coeffs: [F; DEGREE],
+    pub(crate) coeffs: [F; DEGREE],
 }
 
 /// larkwork's polynomial trait
@@ -49,9 +51,10 @@ pub trait PolynomialOps<F: Field>:
     + for<'a> Sum<&'a Self>
 {
     /// Zero element (additive identity)
-    const ZERO: Self;
+    fn zero() -> Self;
+
     /// One element (multiplicative identity)
-    const ONE: Self;
+    fn one() -> Self;
 
     /// sample a uniformly random polynomial over modulus
     /// if modulus is None, over the modulus of F

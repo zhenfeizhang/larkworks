@@ -8,7 +8,7 @@ mod field;
 mod lattice;
 mod matrix;
 mod polynomial;
-mod ring;
+mod polynomial_ring;
 mod vector;
 
 #[cfg(test)]
