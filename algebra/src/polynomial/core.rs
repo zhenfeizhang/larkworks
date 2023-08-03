@@ -144,21 +144,37 @@ where
 impl<F: Field, const DEGREE: usize> PolynomialOps<F> for Polynomial<F, DEGREE> {
     /// Zero element (additive identity)
     fn zero() -> Self {
-        todo!()
+        Self {
+            coeffs: [F::ZERO; DEGREE],
+        }
     }
     /// One element (multiplicative identity)
     fn one() -> Self {
-        todo!()
+        let mut res = Self::zero();
+        res.coeffs[0] = F::ONE;
+        res
     }
     /// sample a uniformly random polynomial over modulus
     /// if modulus is None, over the modulus of F
-    fn random(rng: impl RngCore, modulus: Option<F>) -> Self {
-        todo!()
+    fn random(mut rng: impl RngCore, modulus: Option<F>) -> Self {
+        let coeff: Vec<F> = match modulus {
+            Some(modulus) => (0..DEGREE)
+                .map(|_| (rng.next_u64() % modulus.into()).into())
+                .collect(),
+            None => (0..DEGREE).map(|_| F::random(&mut rng)).collect(),
+        };
+
+        Self {
+            coeffs: coeff.try_into().unwrap(),
+        }
     }
 
     /// Sample a random binary polynomial
-    fn random_binary(rng: impl RngCore) -> Self {
-        todo!()
+    fn random_binary(mut rng: impl RngCore) -> Self {
+        let coeff: Vec<F> = (0..DEGREE).map(|_| (rng.next_u64() % 2).into()).collect();
+        Self {
+            coeffs: coeff.try_into().unwrap(),
+        }
     }
 
     /// A 32 bytes digest of the polynomial

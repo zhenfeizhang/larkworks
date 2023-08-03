@@ -9,6 +9,9 @@ use rand::RngCore;
 
 use crate::{field::NTTField, Field, PolynomialRingOps};
 
+mod core;
+mod v12289;
+
 /// larkwork's vector trait
 pub trait Vector<F: Field>:
     Sized

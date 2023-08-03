@@ -146,7 +146,9 @@ where
 impl<F: NTTField, const DEGREE: usize> PolynomialOps<F> for PolynomialRing<F, DEGREE> {
     /// Zero element (additive identity)
     fn zero() -> Self {
-        todo!()
+        Self {
+            poly: Polynomial::zero(),
+        }
     }
 
     /// One element (multiplicative identity)
@@ -158,12 +160,16 @@ impl<F: NTTField, const DEGREE: usize> PolynomialOps<F> for PolynomialRing<F, DE
     /// sample a uniformly random polynomial over modulus
     /// if modulus is None, over the modulus of F
     fn random(rng: impl RngCore, modulus: Option<F>) -> Self {
-        todo!()
+        Self {
+            poly: Polynomial::random(rng, modulus),
+        }
     }
 
     /// Sample a random binary polynomial
     fn random_binary(rng: impl RngCore) -> Self {
-        todo!()
+        Self {
+            poly: Polynomial::random_binary(rng)
+        }
     }
 
     /// A 32 bytes digest of the polynomial
