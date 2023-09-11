@@ -168,7 +168,7 @@ impl<F: NTTField, const DEGREE: usize> PolynomialOps<F> for PolynomialRing<F, DE
     /// Sample a random binary polynomial
     fn random_binary(rng: impl RngCore) -> Self {
         Self {
-            poly: Polynomial::random_binary(rng)
+            poly: Polynomial::random_binary(rng),
         }
     }
 

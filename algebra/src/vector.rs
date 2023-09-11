@@ -1,7 +1,7 @@
 use std::{
     fmt::Debug,
     iter::{Product, Sum},
-    ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign},
+    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
     slice::Iter,
 };
 
@@ -13,10 +13,9 @@ mod core;
 mod v12289;
 
 /// larkwork's vector trait
-pub trait Vector<F: Field>:
+pub trait VectorOps<F: Field>:
     Sized
     + Eq
-    + Copy
     + Clone
     + Default
     + Debug
@@ -25,29 +24,33 @@ pub trait Vector<F: Field>:
     + Sub<Output = Self>
     // pair-wise multiplication
     + Mul<Output = Self>
+    // + Div<Output = Self>
     + for<'a> Add<&'a Self, Output = Self>
     + for<'a> Sub<&'a Self, Output = Self>
     + for<'a> Mul<&'a Self, Output = Self>
+    // + for<'a> Div<&'a Self, Output = Self>
     + AddAssign
     + SubAssign
     + MulAssign
+    // + DivAssign
     + Sum
     + Product
     + for<'a> AddAssign<&'a Self>
     + for<'a> SubAssign<&'a Self>
     + for<'a> MulAssign<&'a Self>
+    // + for<'a> DivAssign<&'a Self>
     + for<'a> Sum<&'a Self>
     + for<'a> Product<&'a Self>
 {
     /// sample a uniformly random vector over modulus
     /// if modulus is None, over the modulus of F
-    fn random(rng: impl RngCore, modulus: Option<F>) -> Self;
+    fn random(rng: impl RngCore, modulus: Option<F>, dim: usize) -> Self;
 
     /// Sample a random binary vector
-    fn random_binary(rng: impl RngCore) -> Self {
+    fn random_binary(rng: impl RngCore, dim: usize) -> Self {
         // This is likely inefficient.
         // Implementor should overload it with an optimized implementation.
-        Self::random(rng, Some(F::from(2u64)))
+        Self::random(rng, Some(F::from(2u64)), dim)
     }
 
     /// If the vector's coefficients are binary
@@ -82,14 +85,14 @@ pub trait Vector<F: Field>:
 }
 
 /// Associating the vector with a lattice
-pub trait LatticeVector<F: Field>: Vector<F> {
+pub trait LatticeVectorOps<F: Field>: VectorOps<F> {
     /// parameter for the lattice
     type LatticeParam;
 }
 
 /// Associating the vector with an NTT domain and a ring
 pub trait NTTVector<F: NTTField>:
-    Vector<F> + From<Self::PolynomialRing> + Into<Self::PolynomialRing>
+    VectorOps<F> + From<Self::PolynomialRing> + Into<Self::PolynomialRing>
 {
     /// type of ring elements used in the NTT
     type PolynomialRing: PolynomialRingOps<F>;
