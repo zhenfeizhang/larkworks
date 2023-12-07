@@ -46,11 +46,17 @@ pub trait Field:
     + for<'a> SubAssign<&'a Self>
     + for<'a> MulAssign<&'a Self>
 {
+    /// Primitive type used to store the element
+    type PrimitiveType;
+
     /// The zero element of the field, the additive identity.
     fn zero() -> Self;
 
     /// The one element of the field, the multiplicative identity.
     fn one() -> Self;
+
+    /// Build a new instance from primitive type
+    fn new(p: &Self::PrimitiveType) -> Self;
 
     /// Returns an element chosen uniformly at random using a user-provided RNG.
     fn random(rng: impl RngCore) -> Self;

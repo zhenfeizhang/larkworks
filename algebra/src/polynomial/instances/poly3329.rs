@@ -1,4 +1,4 @@
-use crate::{ConfigZZp3329, ZZpX, ConfigZZpX};
+use crate::{ConfigZZp3329, ConfigZZpX, ZZpX};
 
 /// Configuration for ZZ[x]/(x^256+1) mod 3329
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq)]

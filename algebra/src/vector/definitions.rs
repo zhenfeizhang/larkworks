@@ -7,7 +7,7 @@ use std::{
 
 use rand::RngCore;
 
-use crate::{Field, ConfigZZp};
+use crate::{ConfigZZp, Field};
 
 /// Trait definition of vector configurations
 pub trait ConfigZZVec: Copy + Debug + Default + Eq + 'static {
@@ -18,7 +18,7 @@ pub trait ConfigZZVec: Copy + Debug + Default + Eq + 'static {
 }
 
 /// larkwork's vector trait
-pub trait Vector<C: ConfigZZVec>:
+pub trait Vector<Config>:
     Sized
     + Eq
     + Clone
@@ -101,5 +101,9 @@ pub trait Vector<C: ConfigZZVec>:
 
     /// From coefficients; without checking the range
     fn from_coefficients_vec_unchecked(coeffs: Vec<Self::BaseField>) -> Self;
+
+
+    /// From primitive types; without checking the range
+    fn from_primitive_types(coeffs: &[ <Self::BaseField as Field>::PrimitiveType]) -> Self;
 
 }

@@ -7,8 +7,8 @@ use num::ToPrimitive;
 use rand::RngCore;
 use subtle::{Choice, ConditionallySelectable, ConstantTimeEq, CtOption};
 
-use crate::Field;
 use crate::ConfigZZp;
+use crate::Field;
 
 /// Integers modulo P
 #[derive(Debug, Copy, Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
@@ -202,6 +202,9 @@ impl<C: ConfigZZp> ConditionallySelectable for ZZp<C> {
 // ff::Field
 // ========================
 impl<C: ConfigZZp> Field for ZZp<C> {
+    /// Primitive type used to store the element
+    type PrimitiveType = C::PrimitiveType;
+
     /// The zero element of the field, the additive identity.
     fn zero() -> Self {
         0u64.into()
@@ -210,6 +213,11 @@ impl<C: ConfigZZp> Field for ZZp<C> {
     /// The one element of the field, the multiplicative identity.
     fn one() -> Self {
         1u64.into()
+    }
+
+    /// Build a new instance from primitive type
+    fn new(p: &Self::PrimitiveType) -> Self {
+        Self(*p)
     }
 
     /// Returns an element chosen uniformly at random using a user-provided RNG.

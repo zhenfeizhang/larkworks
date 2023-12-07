@@ -1,4 +1,4 @@
-use crate::{ConfigZZp12289, ZZpX, ConfigZZpX};
+use crate::{ConfigZZp12289, ConfigZZpX, ZZpX};
 
 /// Configuration for ZZ[x]/(x^512+1) mod 12289
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq)]

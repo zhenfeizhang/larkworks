@@ -11,10 +11,10 @@ use rayon::iter::IntoParallelRefIterator;
 use rayon::iter::IntoParallelRefMutIterator;
 use rayon::iter::ParallelIterator;
 
+use crate::ConfigZZpX;
 use crate::Field;
 use crate::Polynomial;
 use crate::ZZp;
-use crate::ConfigZZpX;
 
 /// ZZ_p[X]
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -215,6 +215,15 @@ impl<C: ConfigZZpX> Polynomial<C> for ZZpX<C> {
     }
     /// From coefficients; without checking the range
     fn from_coefficients_vec_unchecked(coeffs: Vec<Self::BaseField>) -> Self {
+        Self { coeffs }
+    }
+
+    /// From primitive types; without checking the range
+    fn from_primitive_types(coeffs: &[<Self::BaseField as Field>::PrimitiveType]) -> Self {
+        let coeffs = coeffs
+            .iter()
+            .map(|c| Self::BaseField::new(c))
+            .collect::<Vec<_>>();
         Self { coeffs }
     }
 }

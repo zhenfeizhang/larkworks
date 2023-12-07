@@ -9,7 +9,7 @@ use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha20Rng;
 use sha2::{Digest, Sha256};
 
-use crate::{Field, ConfigZZp};
+use crate::{ConfigZZp, Field};
 
 /// Trait definition of polynomial configurations
 pub trait ConfigZZpX: Copy + Debug + Default + Eq + 'static {
@@ -22,7 +22,7 @@ pub trait ConfigZZpX: Copy + Debug + Default + Eq + 'static {
 /// larkwork's polynomial trait
 ///
 /// A polynomial has its coefficients over F.
-pub trait Polynomial<C: ConfigZZpX>:
+pub trait Polynomial<Config>:
     Sized
     + Eq
     + Clone
@@ -110,6 +110,9 @@ pub trait Polynomial<C: ConfigZZpX>:
     }
     /// From coefficients; without checking the range
     fn from_coefficients_vec_unchecked(coeffs: Vec<Self::BaseField>) -> Self;
+
+    /// From primitive types; without checking the range
+    fn from_primitive_types(coeffs: &[<Self::BaseField as Field>::PrimitiveType]) -> Self;
 }
 
 // /// Represents a sparse polynomial

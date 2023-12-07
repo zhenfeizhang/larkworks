@@ -1,5 +1,5 @@
-//! This crate provides arithemtic backend for algebraic objects used in
-//! lattic-based crypto.
+//! This crate provides arithmetic backend for algebraic objects used in
+//! lattice-based crypto.
 
 #![warn(unused, future_incompatible, nonstandard_style)]
 #![deny(missing_docs)]
@@ -10,6 +10,8 @@ mod field;
 mod polynomial;
 // mod ring;
 mod vector;
+// NTT domain
+mod domain;
 
 #[cfg(test)]
 mod tests;

@@ -1,4 +1,4 @@
-use crate::{ZZVec, ConfigZZVec, ConfigZZp3329};
+use crate::{ConfigZZVec, ConfigZZp3329, ZZVec};
 
 /// Configuration for ZZ^n mod  3329
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq)]
