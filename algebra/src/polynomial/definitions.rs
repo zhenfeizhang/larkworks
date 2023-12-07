@@ -12,7 +12,6 @@ use sha2::{Digest, Sha256};
 use crate::{Field, ZZpConfig};
 
 /// Trait definition of polynomial configurations
-
 pub trait ZZpXConfig: Copy + Debug + Default + Eq + 'static {
     /// Config for the base field
     type BaseConfig: ZZpConfig;

@@ -9,7 +9,7 @@ mod field;
 // mod matrix;
 mod polynomial;
 // mod ring;
-// mod vector;
+mod vector;
 
 #[cfg(test)]
 mod tests;
