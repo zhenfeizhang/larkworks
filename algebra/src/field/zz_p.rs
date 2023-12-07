@@ -12,7 +12,7 @@ use crate::ZZpConfig;
 
 /// Integers modulo P
 #[derive(Debug, Copy, Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
-pub struct ZZp<C: ZZpConfig>(C::PrimitiveType);
+pub struct ZZp<C: ZZpConfig>(pub(crate) C::PrimitiveType);
 
 impl<C: ZZpConfig> std::fmt::Display for ZZp<C> {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {

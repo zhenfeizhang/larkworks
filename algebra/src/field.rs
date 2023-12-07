@@ -1,13 +1,14 @@
 //! Field APIs.
 
+/// Trait definitions
 mod definitions;
 
-/// instances
+/// Instances
 mod instances;
 
-/// trait definitions
-mod zz;
+/// generic implementation of ZZ mod p
+mod zz_p;
 
-pub use definitions::Field;
-pub use definitions::ZZpConfig;
-pub use instances::{Param12289, Param3329, Param8380417, F12289, F3329, F8380417};
+pub use definitions::{Field, ZZpConfig};
+pub use instances::{ZZpConfig12289, ZZpConfig3329, ZZpConfig8380417, F12289, F3329, F8380417};
+pub use zz_p::ZZp;

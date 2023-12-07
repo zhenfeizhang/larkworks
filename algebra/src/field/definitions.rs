@@ -169,23 +169,23 @@ pub trait Field:
     }
 }
 
-/// larkwork's prime field.
-pub trait PrimeField: ff::PrimeField + Field {
-    /// Normalize self into `[-MODULUS_OVER_2, MODULUS_OVER_2)`
-    fn lift(&self) -> Self;
+// /// larkwork's prime field.
+// pub trait PrimeField: ff::PrimeField + Field {
+//     /// Normalize self into `[-MODULUS_OVER_2, MODULUS_OVER_2)`
+//     fn lift(&self) -> Self;
 
-    /// Normalize self into `[0, MODULUS)`
-    fn normalize(&self) -> Self;
-}
+//     /// Normalize self into `[0, MODULUS)`
+//     fn normalize(&self) -> Self;
+// }
 
-/// larkwork's NTT friendly field.
-pub trait NTTField: PrimeField {
-    /// The generator of the multiplicative group of the field
-    const GENERATOR: Self;
+// /// larkwork's NTT friendly field.
+// pub trait NTTField: PrimeField {
+//     /// The generator of the multiplicative group of the field
+//     const GENERATOR: Self;
 
-    /// Returns the root of unity of order n, if one exists.
-    fn get_root_of_unity(n: u64) -> Option<Self>;
-}
+//     /// Returns the root of unity of order n, if one exists.
+//     fn get_root_of_unity(n: u64) -> Option<Self>;
+// }
 
 /// Trait definition of configurations
 pub trait ZZpConfig: Copy + Debug + Default + Eq + 'static {

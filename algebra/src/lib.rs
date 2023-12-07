@@ -7,7 +7,7 @@
 mod field;
 // mod lattice;
 // mod matrix;
-// mod polynomial;
+mod polynomial;
 // mod ring;
 // mod vector;
 
