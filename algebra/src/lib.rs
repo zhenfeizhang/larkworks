@@ -5,11 +5,11 @@
 #![deny(missing_docs)]
 
 mod field;
-mod lattice;
-mod matrix;
-mod polynomial;
-mod ring;
-mod vector;
+// mod lattice;
+// mod matrix;
+// mod polynomial;
+// mod ring;
+// mod vector;
 
 #[cfg(test)]
 mod tests;
