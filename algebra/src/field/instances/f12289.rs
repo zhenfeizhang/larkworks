@@ -7,7 +7,7 @@ pub struct ConfigZZp12289;
 impl ConfigZZp for ConfigZZp12289 {
     type PrimitiveType = u16;
     type ProductType = u32;
-    const MODULUS: Self::PrimitiveType = 3329;
+    const MODULUS: Self::PrimitiveType = 12289;
 }
 
 /// ZZ mod 12289

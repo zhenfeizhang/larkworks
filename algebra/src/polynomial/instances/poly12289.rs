@@ -11,7 +11,7 @@ impl ConfigZZpX for ConfigZZpX12289_512 {
     const DIM: usize = 512;
 }
 
-/// Polynomial used in Kyber with coefficient from ZZ_q where q=3329.
+/// Polynomial with coefficient from ZZ_q where q=12289.
 pub type Poly12289_512 = ZZpX<ConfigZZpX12289_512>;
 
 #[test]

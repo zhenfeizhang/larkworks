@@ -32,9 +32,9 @@ impl<C: ConfigZZVec> Default for ZZVec<C> {
 impl<C: ConfigZZVec> Display for ZZVec<C> {
     fn fmt(&self, f: &mut Formatter) -> Result {
         writeln!(f, "vector:")?;
-        for chunk in self.coeffs.chunks(8) {
+        for chunk in self.coeffs.chunks(32) {
             for e in chunk {
-                write!(f, "{}", e)?;
+                write!(f, "{:4} ", e)?;
             }
             writeln!(f, "")?;
         }
@@ -51,7 +51,7 @@ impl<'a, C: ConfigZZVec> Mul<&'a Self> for ZZVec<C> {
     // Coefficient wise multiplications with mod reduction.
     fn mul(self, other: &'a Self) -> Self {
         let mut res = self;
-        res += other;
+        res *= other;
         res
     }
 }
@@ -61,14 +61,14 @@ impl<C: ConfigZZVec> Mul for ZZVec<C> {
 
     // Coefficient wise multiplications with mod reduction.
     fn mul(self, other: Self) -> Self {
-        self + &other
+        self * &other
     }
 }
 
 impl<C: ConfigZZVec> MulAssign for ZZVec<C> {
     // Coefficient wise multiplications with mod reduction.
     fn mul_assign(&mut self, rhs: Self) {
-        *self += &rhs;
+        *self *= &rhs;
     }
 }
 
@@ -78,7 +78,7 @@ impl<'a, C: ConfigZZVec> MulAssign<&'a Self> for ZZVec<C> {
         self.coeffs
             .par_iter_mut()
             .zip(rhs.coeffs.par_iter())
-            .for_each(|(x, y)| *x += y)
+            .for_each(|(x, y)| *x *= y)
     }
 }
 

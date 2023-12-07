@@ -4,18 +4,24 @@
 #![warn(unused, future_incompatible, nonstandard_style)]
 #![deny(missing_docs)]
 
+/// NTT domain
+mod domain;
+/// Fields
 mod field;
+/// Polynomials
+mod polynomial;
+/// Polynomial ring elements
+mod ring;
+/// Vector space
+mod vector;
+
 // mod lattice;
 // mod matrix;
-mod polynomial;
-// mod ring;
-mod vector;
-// NTT domain
-mod domain;
 
 #[cfg(test)]
 mod tests;
 
+/// Re-expose all APIs
 mod prelude;
 
 use log::warn;
