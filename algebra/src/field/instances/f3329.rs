@@ -1,17 +1,17 @@
-use crate::{field::zz_p::ZZp, ZZpConfig};
+use crate::{field::zz_p::ZZp, ConfigZZp};
 
 /// Configuration parameter for ZZ mod 3329
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq)]
-pub struct ZZpConfig3329;
+pub struct ConfigZZp3329;
 
-impl ZZpConfig for ZZpConfig3329 {
+impl ConfigZZp for ConfigZZp3329 {
     type PrimitiveType = u16;
     type ProductType = u32;
     const MODULUS: Self::PrimitiveType = 3329;
 }
 
 ///  ZZ mod 3329
-pub type F3329 = ZZp<ZZpConfig3329>;
+pub type F3329 = ZZp<ConfigZZp3329>;
 
 #[cfg(test)]
 mod tests {

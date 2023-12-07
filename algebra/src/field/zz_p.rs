@@ -8,13 +8,13 @@ use rand::RngCore;
 use subtle::{Choice, ConditionallySelectable, ConstantTimeEq, CtOption};
 
 use crate::Field;
-use crate::ZZpConfig;
+use crate::ConfigZZp;
 
 /// Integers modulo P
 #[derive(Debug, Copy, Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
-pub struct ZZp<C: ZZpConfig>(pub(crate) C::PrimitiveType);
+pub struct ZZp<C: ConfigZZp>(pub(crate) C::PrimitiveType);
 
-impl<C: ZZpConfig> std::fmt::Display for ZZp<C> {
+impl<C: ConfigZZp> std::fmt::Display for ZZp<C> {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "{}", self.0)
     }
@@ -23,7 +23,7 @@ impl<C: ZZpConfig> std::fmt::Display for ZZp<C> {
 // ========================
 // subtractions
 // ========================
-impl<C: ZZpConfig> Neg for ZZp<C> {
+impl<C: ConfigZZp> Neg for ZZp<C> {
     type Output = Self;
 
     fn neg(self) -> Self::Output {
@@ -35,7 +35,7 @@ impl<C: ZZpConfig> Neg for ZZp<C> {
     }
 }
 
-impl<C: ZZpConfig> Sub for ZZp<C> {
+impl<C: ConfigZZp> Sub for ZZp<C> {
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
@@ -47,7 +47,7 @@ impl<C: ZZpConfig> Sub for ZZp<C> {
     }
 }
 
-impl<'b, C: ZZpConfig> Sub<&'b ZZp<C>> for ZZp<C> {
+impl<'b, C: ConfigZZp> Sub<&'b ZZp<C>> for ZZp<C> {
     type Output = ZZp<C>;
 
     #[inline]
@@ -56,14 +56,14 @@ impl<'b, C: ZZpConfig> Sub<&'b ZZp<C>> for ZZp<C> {
     }
 }
 
-impl<C: ZZpConfig> SubAssign for ZZp<C> {
+impl<C: ConfigZZp> SubAssign for ZZp<C> {
     #[inline]
     fn sub_assign(&mut self, rhs: ZZp<C>) {
         *self = (*self).sub(rhs)
     }
 }
 
-impl<'b, C: ZZpConfig> SubAssign<&'b ZZp<C>> for ZZp<C> {
+impl<'b, C: ConfigZZp> SubAssign<&'b ZZp<C>> for ZZp<C> {
     #[inline]
     fn sub_assign(&mut self, rhs: &'b ZZp<C>) {
         *self = (*self).sub(rhs)
@@ -73,7 +73,7 @@ impl<'b, C: ZZpConfig> SubAssign<&'b ZZp<C>> for ZZp<C> {
 // ========================
 // additions
 // ========================
-impl<C: ZZpConfig> Add for ZZp<C> {
+impl<C: ConfigZZp> Add for ZZp<C> {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
@@ -85,7 +85,7 @@ impl<C: ZZpConfig> Add for ZZp<C> {
     }
 }
 
-impl<'b, C: ZZpConfig> Add<&'b ZZp<C>> for ZZp<C> {
+impl<'b, C: ConfigZZp> Add<&'b ZZp<C>> for ZZp<C> {
     type Output = ZZp<C>;
 
     #[inline]
@@ -94,21 +94,21 @@ impl<'b, C: ZZpConfig> Add<&'b ZZp<C>> for ZZp<C> {
     }
 }
 
-impl<C: ZZpConfig> AddAssign for ZZp<C> {
+impl<C: ConfigZZp> AddAssign for ZZp<C> {
     #[inline]
     fn add_assign(&mut self, rhs: ZZp<C>) {
         *self = (*self).add(rhs)
     }
 }
 
-impl<'b, C: ZZpConfig> AddAssign<&'b ZZp<C>> for ZZp<C> {
+impl<'b, C: ConfigZZp> AddAssign<&'b ZZp<C>> for ZZp<C> {
     #[inline]
     fn add_assign(&mut self, rhs: &'b ZZp<C>) {
         *self = (*self).add(rhs)
     }
 }
 
-impl<T, C: ZZpConfig> Sum<T> for ZZp<C>
+impl<T, C: ConfigZZp> Sum<T> for ZZp<C>
 where
     T: core::borrow::Borrow<Self>,
 {
@@ -123,7 +123,7 @@ where
 // ========================
 // multiplications
 // ========================
-impl<C: ZZpConfig> Mul for ZZp<C> {
+impl<C: ConfigZZp> Mul for ZZp<C> {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self::Output {
@@ -135,7 +135,7 @@ impl<C: ZZpConfig> Mul for ZZp<C> {
     }
 }
 
-impl<'b, C: ZZpConfig> Mul<&'b ZZp<C>> for ZZp<C> {
+impl<'b, C: ConfigZZp> Mul<&'b ZZp<C>> for ZZp<C> {
     type Output = ZZp<C>;
 
     #[inline]
@@ -144,21 +144,21 @@ impl<'b, C: ZZpConfig> Mul<&'b ZZp<C>> for ZZp<C> {
     }
 }
 
-impl<C: ZZpConfig> MulAssign for ZZp<C> {
+impl<C: ConfigZZp> MulAssign for ZZp<C> {
     #[inline]
     fn mul_assign(&mut self, rhs: ZZp<C>) {
         *self = (*self).mul(rhs)
     }
 }
 
-impl<'b, C: ZZpConfig> MulAssign<&'b ZZp<C>> for ZZp<C> {
+impl<'b, C: ConfigZZp> MulAssign<&'b ZZp<C>> for ZZp<C> {
     #[inline]
     fn mul_assign(&mut self, rhs: &'b ZZp<C>) {
         *self = (*self).mul(rhs)
     }
 }
 
-impl<T, C: ZZpConfig> Product<T> for ZZp<C>
+impl<T, C: ConfigZZp> Product<T> for ZZp<C>
 where
     T: core::borrow::Borrow<Self>,
 {
@@ -170,14 +170,14 @@ where
 // ========================
 // conversions
 // ========================
-impl<C: ZZpConfig> From<u64> for ZZp<C> {
+impl<C: ConfigZZp> From<u64> for ZZp<C> {
     fn from(value: u64) -> Self {
         assert!(value < C::MODULUS.into());
         Self(C::PrimitiveType::from_u64(value).unwrap())
     }
 }
 
-impl<C: ZZpConfig> From<ZZp<C>> for u64 {
+impl<C: ConfigZZp> From<ZZp<C>> for u64 {
     fn from(value: ZZp<C>) -> Self {
         value.0.into()
     }
@@ -186,13 +186,13 @@ impl<C: ZZpConfig> From<ZZp<C>> for u64 {
 // ========================
 // misc
 // ========================
-impl<C: ZZpConfig> ConstantTimeEq for ZZp<C> {
+impl<C: ConfigZZp> ConstantTimeEq for ZZp<C> {
     fn ct_eq(&self, other: &Self) -> subtle::Choice {
         self.0.ct_eq(&other.0)
     }
 }
 
-impl<C: ZZpConfig> ConditionallySelectable for ZZp<C> {
+impl<C: ConfigZZp> ConditionallySelectable for ZZp<C> {
     fn conditional_select(a: &Self, b: &Self, choice: subtle::Choice) -> Self {
         Self(C::PrimitiveType::conditional_select(&a.0, &b.0, choice))
     }
@@ -201,7 +201,7 @@ impl<C: ZZpConfig> ConditionallySelectable for ZZp<C> {
 // ========================
 // ff::Field
 // ========================
-impl<C: ZZpConfig> Field for ZZp<C> {
+impl<C: ConfigZZp> Field for ZZp<C> {
     /// The zero element of the field, the additive identity.
     fn zero() -> Self {
         0u64.into()

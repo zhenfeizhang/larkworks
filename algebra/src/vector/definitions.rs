@@ -7,18 +7,18 @@ use std::{
 
 use rand::RngCore;
 
-use crate::{Field, ZZpConfig};
+use crate::{Field, ConfigZZp};
 
 /// Trait definition of vector configurations
-pub trait ZZVecConfig: Copy + Debug + Default + Eq + 'static {
+pub trait ConfigZZVec: Copy + Debug + Default + Eq + 'static {
     /// Config for the base field
-    type BaseConfig: ZZpConfig;
+    type BaseConfig: ConfigZZp;
     /// Number of coefficients in a poly
     const DIM: usize;
 }
 
 /// larkwork's vector trait
-pub trait Vector<C: ZZVecConfig>:
+pub trait Vector<C: ConfigZZVec>:
     Sized
     + Eq
     + Clone
@@ -46,6 +46,11 @@ pub trait Vector<C: ZZVecConfig>:
     /// Base field of the vector
     type BaseField: Field;
 
+    /// Zero element (additive identity)
+    fn zero() -> Self;
+
+    /// One element (multiplicative identity)
+    fn one() -> Self;
 
     /// sample a uniformly random vector over modulus
     /// if modulus is None, over the modulus of F
@@ -64,7 +69,6 @@ pub trait Vector<C: ZZVecConfig>:
             .all(|&x| x == Self::BaseField::zero() || x == Self::BaseField::one())
 
     }
-
 
     /// If the vector's coefficients are ternary
     fn is_ternary(&self) -> bool {
@@ -89,7 +93,6 @@ pub trait Vector<C: ZZVecConfig>:
 
     /// Expose coefficients as a iter
     fn coefficients(&self) -> Iter<'_, Self::BaseField>;
-
 
     /// From coefficients; without checking the range
     fn from_coefficients_unchecked(coeffs: &[Self::BaseField]) -> Self {

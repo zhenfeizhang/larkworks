@@ -11,16 +11,17 @@ use rayon::iter::IntoParallelRefIterator;
 use rayon::iter::IntoParallelRefMutIterator;
 use rayon::iter::ParallelIterator;
 
+use crate::Field;
 use crate::Vector;
-use crate::{ZZVecConfig, ZZp};
+use crate::{ConfigZZVec, ZZp};
 
 /// ZZ_vec
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct ZZVec<C: ZZVecConfig> {
+pub struct ZZVec<C: ConfigZZVec> {
     pub(crate) coeffs: Vec<ZZp<C::BaseConfig>>,
 }
 
-impl<C: ZZVecConfig> Default for ZZVec<C> {
+impl<C: ConfigZZVec> Default for ZZVec<C> {
     fn default() -> Self {
         Self {
             coeffs: vec![ZZp::<C::BaseConfig>::default(); C::DIM],
@@ -28,7 +29,7 @@ impl<C: ZZVecConfig> Default for ZZVec<C> {
     }
 }
 
-impl<C: ZZVecConfig> Display for ZZVec<C> {
+impl<C: ConfigZZVec> Display for ZZVec<C> {
     fn fmt(&self, f: &mut Formatter) -> Result {
         writeln!(f, "vector:")?;
         for chunk in self.coeffs.chunks(8) {
@@ -44,7 +45,7 @@ impl<C: ZZVecConfig> Display for ZZVec<C> {
 // ===========================
 // multiplications
 // ===========================
-impl<'a, C: ZZVecConfig> Mul<&'a Self> for ZZVec<C> {
+impl<'a, C: ConfigZZVec> Mul<&'a Self> for ZZVec<C> {
     type Output = Self;
 
     // Coefficient wise multiplications with mod reduction.
@@ -55,7 +56,7 @@ impl<'a, C: ZZVecConfig> Mul<&'a Self> for ZZVec<C> {
     }
 }
 
-impl<C: ZZVecConfig> Mul for ZZVec<C> {
+impl<C: ConfigZZVec> Mul for ZZVec<C> {
     type Output = Self;
 
     // Coefficient wise multiplications with mod reduction.
@@ -64,14 +65,14 @@ impl<C: ZZVecConfig> Mul for ZZVec<C> {
     }
 }
 
-impl<C: ZZVecConfig> MulAssign for ZZVec<C> {
+impl<C: ConfigZZVec> MulAssign for ZZVec<C> {
     // Coefficient wise multiplications with mod reduction.
     fn mul_assign(&mut self, rhs: Self) {
         *self += &rhs;
     }
 }
 
-impl<'a, C: ZZVecConfig> MulAssign<&'a Self> for ZZVec<C> {
+impl<'a, C: ConfigZZVec> MulAssign<&'a Self> for ZZVec<C> {
     // Coefficient wise multiplications with mod reduction.
     fn mul_assign(&mut self, rhs: &'a Self) {
         self.coeffs
@@ -83,7 +84,7 @@ impl<'a, C: ZZVecConfig> MulAssign<&'a Self> for ZZVec<C> {
 
 impl<C, T> Product<T> for ZZVec<C>
 where
-    C: ZZVecConfig,
+    C: ConfigZZVec,
     T: core::borrow::Borrow<Self>,
 {
     fn product<I: Iterator<Item = T>>(iter: I) -> Self {
@@ -94,7 +95,7 @@ where
 // ===========================
 // additions
 // ===========================
-impl<'a, C: ZZVecConfig> Add<&'a Self> for ZZVec<C> {
+impl<'a, C: ConfigZZVec> Add<&'a Self> for ZZVec<C> {
     type Output = Self;
 
     // Coefficient wise additions without mod reduction.
@@ -105,7 +106,7 @@ impl<'a, C: ZZVecConfig> Add<&'a Self> for ZZVec<C> {
     }
 }
 
-impl<C: ZZVecConfig> Add for ZZVec<C> {
+impl<C: ConfigZZVec> Add for ZZVec<C> {
     type Output = Self;
 
     // Coefficient wise additions without mod reduction.
@@ -114,14 +115,14 @@ impl<C: ZZVecConfig> Add for ZZVec<C> {
     }
 }
 
-impl<C: ZZVecConfig> AddAssign for ZZVec<C> {
+impl<C: ConfigZZVec> AddAssign for ZZVec<C> {
     // Coefficient wise additions without mod reduction.
     fn add_assign(&mut self, rhs: Self) {
         *self += &rhs;
     }
 }
 
-impl<'a, C: ZZVecConfig> AddAssign<&'a Self> for ZZVec<C> {
+impl<'a, C: ConfigZZVec> AddAssign<&'a Self> for ZZVec<C> {
     // Coefficient wise additions without mod reduction.
     fn add_assign(&mut self, rhs: &'a Self) {
         self.coeffs
@@ -134,7 +135,7 @@ impl<'a, C: ZZVecConfig> AddAssign<&'a Self> for ZZVec<C> {
 // ===========================
 // subtract
 // ===========================
-impl<'a, C: ZZVecConfig> Sub<&'a Self> for ZZVec<C> {
+impl<'a, C: ConfigZZVec> Sub<&'a Self> for ZZVec<C> {
     type Output = Self;
 
     // Coefficient wise subtractions without mod reduction.
@@ -144,7 +145,7 @@ impl<'a, C: ZZVecConfig> Sub<&'a Self> for ZZVec<C> {
         res
     }
 }
-impl<C: ZZVecConfig> Sub for ZZVec<C> {
+impl<C: ConfigZZVec> Sub for ZZVec<C> {
     type Output = Self;
 
     // Coefficient wise subtractions with mod reduction.
@@ -153,14 +154,14 @@ impl<C: ZZVecConfig> Sub for ZZVec<C> {
     }
 }
 
-impl<C: ZZVecConfig> SubAssign for ZZVec<C> {
+impl<C: ConfigZZVec> SubAssign for ZZVec<C> {
     // Coefficient wise subtractions without mod reduction.
     fn sub_assign(&mut self, rhs: Self) {
         *self -= &rhs;
     }
 }
 
-impl<'a, C: ZZVecConfig> SubAssign<&'a Self> for ZZVec<C> {
+impl<'a, C: ConfigZZVec> SubAssign<&'a Self> for ZZVec<C> {
     // Coefficient wise subtractions without mod reduction.
     fn sub_assign(&mut self, rhs: &'a Self) {
         self.coeffs
@@ -173,7 +174,7 @@ impl<'a, C: ZZVecConfig> SubAssign<&'a Self> for ZZVec<C> {
 // ===========================
 // neg
 // ===========================
-impl<C: ZZVecConfig> Neg for ZZVec<C> {
+impl<C: ConfigZZVec> Neg for ZZVec<C> {
     type Output = Self;
     fn neg(self) -> Self::Output {
         let mut res = self;
@@ -182,7 +183,7 @@ impl<C: ZZVecConfig> Neg for ZZVec<C> {
     }
 }
 
-impl<C: ZZVecConfig, T> Sum<T> for ZZVec<C>
+impl<C: ConfigZZVec, T> Sum<T> for ZZVec<C>
 where
     T: core::borrow::Borrow<Self>,
 {
@@ -194,8 +195,23 @@ where
     }
 }
 
-impl<C: ZZVecConfig> Vector<C> for ZZVec<C> {
+impl<C: ConfigZZVec> Vector<C> for ZZVec<C> {
+    /// Base field of the vector
     type BaseField = ZZp<C::BaseConfig>;
+
+    /// Zero element (additive identity)
+    fn zero() -> Self {
+        Self {
+            coeffs: vec![Self::BaseField::zero(); C::DIM],
+        }
+    }
+
+    /// One element (multiplicative identity)
+    fn one() -> Self {
+        Self {
+            coeffs: vec![Self::BaseField::one(); C::DIM],
+        }
+    }
 
     /// sample a uniformly random Vector over modulus
     /// if modulus is None, over the modulus of F

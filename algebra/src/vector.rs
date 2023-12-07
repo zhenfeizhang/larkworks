@@ -1,7 +1,9 @@
 mod definitions;
+mod instances;
 mod zz_vec;
 
-pub use definitions::{Vector, ZZVecConfig};
+pub use definitions::{Vector, ConfigZZVec};
+pub use instances::{Vec12289_512, Vec3329_256, ConfigZZVec12289_512, ConfigZZVec3329_256};
 pub use zz_vec::ZZVec;
 
 // use std::{

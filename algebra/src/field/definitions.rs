@@ -188,7 +188,7 @@ pub trait Field:
 // }
 
 /// Trait definition of configurations
-pub trait ZZpConfig: Copy + Debug + Default + Eq + 'static {
+pub trait ConfigZZp: Copy + Debug + Default + Eq + 'static {
     /// Primitive type that used to store the field element
     type PrimitiveType: Display
         + Copy

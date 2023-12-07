@@ -14,15 +14,15 @@ use rayon::iter::ParallelIterator;
 use crate::Field;
 use crate::Polynomial;
 use crate::ZZp;
-use crate::ZZpXConfig;
+use crate::ConfigZZpX;
 
 /// ZZ_p[X]
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct ZZpX<C: ZZpXConfig> {
+pub struct ZZpX<C: ConfigZZpX> {
     pub(crate) coeffs: Vec<ZZp<C::BaseConfig>>,
 }
 
-impl<C: ZZpXConfig> Default for ZZpX<C> {
+impl<C: ConfigZZpX> Default for ZZpX<C> {
     fn default() -> Self {
         Self {
             coeffs: vec![ZZp::<C::BaseConfig>::default(); C::DIM],
@@ -30,7 +30,7 @@ impl<C: ZZpXConfig> Default for ZZpX<C> {
     }
 }
 
-impl<C: ZZpXConfig> Display for ZZpX<C> {
+impl<C: ConfigZZpX> Display for ZZpX<C> {
     fn fmt(&self, f: &mut Formatter) -> Result {
         writeln!(f, "Polynomial:")?;
         write!(f, "{}", self.coeffs[0])?;
@@ -47,7 +47,7 @@ impl<C: ZZpXConfig> Display for ZZpX<C> {
 // ===========================
 // additions
 // ===========================
-impl<'a, C: ZZpXConfig> Add<&'a Self> for ZZpX<C> {
+impl<'a, C: ConfigZZpX> Add<&'a Self> for ZZpX<C> {
     type Output = Self;
 
     // Coefficient wise additions without mod reduction.
@@ -58,7 +58,7 @@ impl<'a, C: ZZpXConfig> Add<&'a Self> for ZZpX<C> {
     }
 }
 
-impl<C: ZZpXConfig> Add for ZZpX<C> {
+impl<C: ConfigZZpX> Add for ZZpX<C> {
     type Output = Self;
 
     // Coefficient wise additions without mod reduction.
@@ -67,14 +67,14 @@ impl<C: ZZpXConfig> Add for ZZpX<C> {
     }
 }
 
-impl<C: ZZpXConfig> AddAssign for ZZpX<C> {
+impl<C: ConfigZZpX> AddAssign for ZZpX<C> {
     // Coefficient wise additions without mod reduction.
     fn add_assign(&mut self, rhs: Self) {
         *self += &rhs;
     }
 }
 
-impl<'a, C: ZZpXConfig> AddAssign<&'a Self> for ZZpX<C> {
+impl<'a, C: ConfigZZpX> AddAssign<&'a Self> for ZZpX<C> {
     // Coefficient wise additions without mod reduction.
     fn add_assign(&mut self, rhs: &'a Self) {
         self.coeffs
@@ -87,7 +87,7 @@ impl<'a, C: ZZpXConfig> AddAssign<&'a Self> for ZZpX<C> {
 // ===========================
 // subtract
 // ===========================
-impl<'a, C: ZZpXConfig> Sub<&'a Self> for ZZpX<C> {
+impl<'a, C: ConfigZZpX> Sub<&'a Self> for ZZpX<C> {
     type Output = Self;
 
     // Coefficient wise subtractions without mod reduction.
@@ -97,7 +97,7 @@ impl<'a, C: ZZpXConfig> Sub<&'a Self> for ZZpX<C> {
         res
     }
 }
-impl<C: ZZpXConfig> Sub for ZZpX<C> {
+impl<C: ConfigZZpX> Sub for ZZpX<C> {
     type Output = Self;
 
     // Coefficient wise subtractions with mod reduction.
@@ -106,14 +106,14 @@ impl<C: ZZpXConfig> Sub for ZZpX<C> {
     }
 }
 
-impl<C: ZZpXConfig> SubAssign for ZZpX<C> {
+impl<C: ConfigZZpX> SubAssign for ZZpX<C> {
     // Coefficient wise subtractions without mod reduction.
     fn sub_assign(&mut self, rhs: Self) {
         *self -= &rhs;
     }
 }
 
-impl<'a, C: ZZpXConfig> SubAssign<&'a Self> for ZZpX<C> {
+impl<'a, C: ConfigZZpX> SubAssign<&'a Self> for ZZpX<C> {
     // Coefficient wise subtractions without mod reduction.
     fn sub_assign(&mut self, rhs: &'a Self) {
         self.coeffs
@@ -126,7 +126,7 @@ impl<'a, C: ZZpXConfig> SubAssign<&'a Self> for ZZpX<C> {
 // ===========================
 // neg
 // ===========================
-impl<C: ZZpXConfig> Neg for ZZpX<C> {
+impl<C: ConfigZZpX> Neg for ZZpX<C> {
     type Output = Self;
     fn neg(self) -> Self::Output {
         let mut res = self;
@@ -135,7 +135,7 @@ impl<C: ZZpXConfig> Neg for ZZpX<C> {
     }
 }
 
-impl<C: ZZpXConfig, T> Sum<T> for ZZpX<C>
+impl<C: ConfigZZpX, T> Sum<T> for ZZpX<C>
 where
     T: core::borrow::Borrow<Self>,
 {
@@ -147,7 +147,7 @@ where
     }
 }
 
-impl<C: ZZpXConfig> Polynomial<C> for ZZpX<C> {
+impl<C: ConfigZZpX> Polynomial<C> for ZZpX<C> {
     type BaseField = ZZp<C::BaseConfig>;
 
     /// Zero element (additive identity)

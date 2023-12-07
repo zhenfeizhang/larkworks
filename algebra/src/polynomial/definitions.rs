@@ -9,12 +9,12 @@ use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha20Rng;
 use sha2::{Digest, Sha256};
 
-use crate::{Field, ZZpConfig};
+use crate::{Field, ConfigZZp};
 
 /// Trait definition of polynomial configurations
-pub trait ZZpXConfig: Copy + Debug + Default + Eq + 'static {
+pub trait ConfigZZpX: Copy + Debug + Default + Eq + 'static {
     /// Config for the base field
-    type BaseConfig: ZZpConfig;
+    type BaseConfig: ConfigZZp;
     /// Number of coefficients in a poly
     const DIM: usize;
 }
@@ -22,7 +22,7 @@ pub trait ZZpXConfig: Copy + Debug + Default + Eq + 'static {
 /// larkwork's polynomial trait
 ///
 /// A polynomial has its coefficients over F.
-pub trait Polynomial<C: ZZpXConfig>:
+pub trait Polynomial<C: ConfigZZpX>:
     Sized
     + Eq
     + Clone
