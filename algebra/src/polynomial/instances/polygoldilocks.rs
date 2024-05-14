@@ -8,7 +8,7 @@ impl ConfigZZpX for ConfigZZpXGoldilocks256 {
     /// Config for the base field
     type BaseConfig = ConfigZZpGoldilocks;
     /// Number of coefficients in a poly
-    const DIM: usize = 512;
+    const DIM: usize = 256;
 }
 
 /// Polynomial with coefficient from ZZ_q where q=12289.

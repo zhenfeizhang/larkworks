@@ -1,4 +1,4 @@
-use crate::{ConfigZZpGoldilocks, ConfigZZVec,  ZZVec};
+use crate::{ConfigZZVec, ConfigZZpGoldilocks, ZZVec};
 
 /// Configuration for ZZ^n mod 12289
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq)]
