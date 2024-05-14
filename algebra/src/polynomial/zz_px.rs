@@ -175,18 +175,14 @@ impl<C: ConfigZZpX> Polynomial<C> for ZZpX<C> {
                 .collect(),
         };
 
-        Self {
-            coeffs: coeff,
-        }
+        Self { coeffs: coeff }
     }
 
     /// Sample a random binary polynomial
     fn random_binary(mut rng: impl RngCore) -> Self {
         let coeff: Vec<Self::BaseField> =
             (0..C::DIM).map(|_| (rng.next_u64() % 2).into()).collect();
-        Self {
-            coeffs: coeff,
-        }
+        Self { coeffs: coeff }
     }
 
     /// A 32 bytes digest of the polynomial
