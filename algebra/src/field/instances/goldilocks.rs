@@ -5,9 +5,9 @@ const EPSILON: u64 = 0xffffffff;
 
 /// Configuration parameter for Goldilocks
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq)]
-pub struct ConfigGoldilocks;
+pub struct ConfigZZpGoldilocks;
 
-impl ConfigZZp for ConfigGoldilocks {
+impl ConfigZZp for ConfigZZpGoldilocks {
     type PrimitiveType = u64;
     type ProductType = u128;
     const MODULUS: Self::PrimitiveType = 0xffffffff00000001;
@@ -44,11 +44,7 @@ impl ConfigZZp for ConfigGoldilocks {
 /// Goldilocks field with modulus 2^64 - 2^32 + 1.
 /// A Goldilocks field may store a non-canonical form of the element
 /// where the value can be between 0 and 2^64.
-//
-// ISSUE: This uses macro impl of mod reduction and will be slow.
-// TODO: reload the multiplication algorithm as in
-// https://github.com/zhenfeizhang/Goldilocks/blob/master/src/primefield/fp.rs#L472
-pub type Goldilocks = ZZp<ConfigGoldilocks>;
+pub type Goldilocks = ZZp<ConfigZZpGoldilocks>;
 
 mod util {
 

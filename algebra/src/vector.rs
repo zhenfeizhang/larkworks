@@ -3,7 +3,7 @@ mod instances;
 mod zz_vec;
 
 pub use definition::{ConfigZZVec, Vector};
-pub use instances::{ConfigZZVec12289_512, ConfigZZVec3329_256, Vec12289_512, Vec3329_256};
+pub use instances::{ConfigZZVec12289_512, ConfigZZVec3329_256, Vec12289_512, Vec3329_256, ConfigZZVecGoldilocks256, VecGoldilocks256};
 pub use zz_vec::ZZVec;
 
 // /// Associating the vector with a lattice

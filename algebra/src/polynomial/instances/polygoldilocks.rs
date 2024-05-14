@@ -1,28 +1,28 @@
-use crate::{ConfigZZp12289, ConfigZZpX, ZZpX};
+use crate::{ConfigZZpGoldilocks, ConfigZZpX, ZZpX};
 
 /// Configuration for ZZ[x]/(x^512+1) mod 12289
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq)]
-pub struct ConfigZZpX12289_512;
+pub struct ConfigZZpXGoldilocks256;
 
-impl ConfigZZpX for ConfigZZpX12289_512 {
+impl ConfigZZpX for ConfigZZpXGoldilocks256 {
     /// Config for the base field
-    type BaseConfig = ConfigZZp12289;
+    type BaseConfig = ConfigZZpGoldilocks;
     /// Number of coefficients in a poly
     const DIM: usize = 512;
 }
 
 /// Polynomial with coefficient from ZZ_q where q=12289.
-pub type Poly12289_512 = ZZpX<ConfigZZpX12289_512>;
+pub type PolyGoldilock256 = ZZpX<ConfigZZpXGoldilocks256>;
 
 #[test]
 fn test_poly() {
-    use crate::F12289;
-    let coeffs = (0..ConfigZZpX12289_512::DIM)
-        .map(|x| F12289::from(x as u64))
+    use crate::Goldilocks;
+    let coeffs = (0..ConfigZZpXGoldilocks256::DIM)
+        .map(|x| Goldilocks::from(x as u64))
         .collect::<Vec<_>>()
         .try_into()
         .unwrap();
-    let poly = Poly12289_512 { coeffs };
+    let poly = PolyGoldilock256 { coeffs };
     println!("poly {}", poly);
     println!("poly {}", poly.clone() + poly);
 }
