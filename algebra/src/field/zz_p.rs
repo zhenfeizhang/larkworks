@@ -1,7 +1,6 @@
 use core::iter::{Product, Sum};
 use std::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-use num::traits::AsPrimitive;
 use num::FromPrimitive;
 use num::ToPrimitive;
 use rand::RngCore;
@@ -11,12 +10,18 @@ use crate::ConfigZZp;
 use crate::Field;
 
 /// Integers modulo P
-#[derive(Debug, Copy, Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Copy, Clone, Default, Eq, PartialOrd, Ord)]
 pub struct ZZp<C: ConfigZZp>(pub(crate) C::PrimitiveType);
 
 impl<C: ConfigZZp> std::fmt::Display for ZZp<C> {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "{}", self.0)
+    }
+}
+
+impl<C: ConfigZZp> PartialEq for ZZp<C> {
+    fn eq(&self, other: &Self) -> bool {
+        C::eq_internal(&self.0, &other.0)
     }
 }
 
@@ -77,11 +82,7 @@ impl<C: ConfigZZp> Add for ZZp<C> {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
-        let mut tmp = self.0 + rhs.0;
-        if tmp >= C::MODULUS {
-            tmp -= C::MODULUS
-        }
-        Self(tmp)
+        Self(C::add_internal(&self.0, &rhs.0))
     }
 }
 
@@ -127,11 +128,7 @@ impl<C: ConfigZZp> Mul for ZZp<C> {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self::Output {
-        Self(
-            (C::ProductType::from(self.0) * C::ProductType::from(rhs.0)
-                % C::ProductType::from(C::MODULUS))
-            .as_(),
-        )
+        Self(C::mul_internal(&self.0, &rhs.0))
     }
 }
 
@@ -188,7 +185,7 @@ impl<C: ConfigZZp> From<ZZp<C>> for u64 {
 // ========================
 impl<C: ConfigZZp> ConstantTimeEq for ZZp<C> {
     fn ct_eq(&self, other: &Self) -> subtle::Choice {
-        self.0.ct_eq(&other.0)
+        self.canonical().0.ct_eq(&other.0)
     }
 }
 
@@ -223,6 +220,11 @@ impl<C: ConfigZZp> Field for ZZp<C> {
     /// Returns an element chosen uniformly at random using a user-provided RNG.
     fn random(mut rng: impl RngCore) -> Self {
         (rng.next_u64() % C::MODULUS.into()).into()
+    }
+
+    /// Convert the element to its canonical encoding
+    fn canonical(&self) -> Self {
+        Self(self.0 % C::MODULUS)
     }
 
     /// Squares this element.
