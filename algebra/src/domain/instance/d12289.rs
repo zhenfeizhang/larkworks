@@ -177,7 +177,7 @@ impl NTTDomain<ConfigZZpX12289_512, ConfigZZVec12289_512> for ZZVec<ConfigZZVec1
             .iter()
             .map(|x| x.0.to_u16().unwrap())
             .collect::<Vec<_>>();
-        let modulus = <ConfigZZpX12289_512 as ConfigZZpX>::BaseConfig::MODULUS as u16;
+        let modulus = <ConfigZZpX12289_512 as ConfigZZpX>::BaseConfig::MODULUS;
         let table = Self::table();
 
         let mut t = ConfigZZpX12289_512::DIM;
@@ -215,7 +215,7 @@ impl NTTDomain<ConfigZZpX12289_512, ConfigZZVec12289_512> for ZZVec<ConfigZZVec1
             .iter()
             .map(|x| x.0.to_u16().unwrap())
             .collect::<Vec<_>>();
-        let modulus = <ConfigZZpX12289_512 as ConfigZZpX>::BaseConfig::MODULUS as u16;
+        let modulus = <ConfigZZpX12289_512 as ConfigZZpX>::BaseConfig::MODULUS;
         let inv_table = Self::inv_table();
 
         let mut t = 1;

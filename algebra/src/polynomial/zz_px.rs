@@ -176,7 +176,7 @@ impl<C: ConfigZZpX> Polynomial<C> for ZZpX<C> {
         };
 
         Self {
-            coeffs: coeff.try_into().unwrap(),
+            coeffs: coeff,
         }
     }
 
@@ -185,7 +185,7 @@ impl<C: ConfigZZpX> Polynomial<C> for ZZpX<C> {
         let coeff: Vec<Self::BaseField> =
             (0..C::DIM).map(|_| (rng.next_u64() % 2).into()).collect();
         Self {
-            coeffs: coeff.try_into().unwrap(),
+            coeffs: coeff,
         }
     }
 
@@ -220,10 +220,7 @@ impl<C: ConfigZZpX> Polynomial<C> for ZZpX<C> {
 
     /// From primitive types; without checking the range
     fn from_primitive_types(coeffs: &[<Self::BaseField as Field>::PrimitiveType]) -> Self {
-        let coeffs = coeffs
-            .iter()
-            .map(|c| Self::BaseField::new(c))
-            .collect::<Vec<_>>();
+        let coeffs = coeffs.iter().map(Self::BaseField::new).collect::<Vec<_>>();
         Self { coeffs }
     }
 }

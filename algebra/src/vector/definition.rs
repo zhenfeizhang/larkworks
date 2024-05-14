@@ -13,8 +13,8 @@ use crate::{ConfigZZp, Field};
 pub trait ConfigZZVec: Copy + Debug + Default + Eq + 'static {
     /// Config for the base field
     type BaseConfig: ConfigZZp;
-    /// Number of coefficients in a poly
-    const DIM: usize;
+    /// Number of coefficients in a poly after NTT transform (if supported)
+    const MAX_DIM: usize;
 }
 
 /// larkwork's vector trait
@@ -78,6 +78,9 @@ pub trait Vector<Config>:
                 || x == -Self::BaseField::one()
         })
     }
+
+    /// Max supported dimension
+    fn max_dimension(&self) -> usize;
 
     /// Return the dimension of the vector
     fn dimension(&self) -> usize;

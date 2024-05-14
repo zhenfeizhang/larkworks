@@ -8,7 +8,7 @@ impl ConfigZZVec for ConfigZZVec3329_256 {
     /// Config for the base field
     type BaseConfig = ConfigZZp3329;
     /// Number of coefficients in a Vector
-    const DIM: usize = 256;
+    const MAX_DIM: usize = 256;
 }
 
 /// Vector with coefficient from ZZ^n mod q=3329.
@@ -17,7 +17,7 @@ pub type Vec3329_256 = ZZVec<ConfigZZVec3329_256>;
 #[test]
 fn test_vec() {
     use crate::F3329;
-    let coeffs = (0..ConfigZZVec3329_256::DIM)
+    let coeffs = (0..ConfigZZVec3329_256::MAX_DIM)
         .map(|x| F3329::from(x as u64))
         .collect::<Vec<_>>()
         .try_into()

@@ -24,7 +24,7 @@ pub struct ZZVec<C: ConfigZZVec> {
 impl<C: ConfigZZVec> Default for ZZVec<C> {
     fn default() -> Self {
         Self {
-            coeffs: vec![ZZp::<C::BaseConfig>::default(); C::DIM],
+            coeffs: vec![ZZp::<C::BaseConfig>::default(); C::MAX_DIM],
         }
     }
 }
@@ -36,7 +36,7 @@ impl<C: ConfigZZVec> Display for ZZVec<C> {
             for e in chunk {
                 write!(f, "{:4} ", e)?;
             }
-            writeln!(f, "")?;
+            writeln!(f)?;
         }
         Ok(())
     }
@@ -202,14 +202,14 @@ impl<C: ConfigZZVec> Vector<C> for ZZVec<C> {
     /// Zero element (additive identity)
     fn zero() -> Self {
         Self {
-            coeffs: vec![Self::BaseField::zero(); C::DIM],
+            coeffs: vec![Self::BaseField::zero(); C::MAX_DIM],
         }
     }
 
     /// One element (multiplicative identity)
     fn one() -> Self {
         Self {
-            coeffs: vec![Self::BaseField::one(); C::DIM],
+            coeffs: vec![Self::BaseField::one(); C::MAX_DIM],
         }
     }
 
@@ -217,26 +217,23 @@ impl<C: ConfigZZVec> Vector<C> for ZZVec<C> {
     /// if modulus is None, over the modulus of F
     fn random(mut rng: impl RngCore, modulus: Option<Self::BaseField>) -> Self {
         let coeff: Vec<Self::BaseField> = match modulus {
-            Some(modulus) => (0..C::DIM)
+            Some(modulus) => (0..C::MAX_DIM)
                 .map(|_| Self::BaseField::from(rng.next_u64() % modulus.0.into()))
                 .collect(),
-            None => (0..C::DIM)
+            None => (0..C::MAX_DIM)
                 .map(|_| Self::BaseField::random(&mut rng))
                 .collect(),
         };
 
-        Self {
-            coeffs: coeff.try_into().unwrap(),
-        }
+        Self { coeffs: coeff }
     }
 
     /// Sample a random binary Vector
     fn random_binary(mut rng: impl RngCore) -> Self {
-        let coeff: Vec<Self::BaseField> =
-            (0..C::DIM).map(|_| (rng.next_u64() % 2).into()).collect();
-        Self {
-            coeffs: coeff.try_into().unwrap(),
-        }
+        let coeff: Vec<Self::BaseField> = (0..C::MAX_DIM)
+            .map(|_| (rng.next_u64() % 2).into())
+            .collect();
+        Self { coeffs: coeff }
     }
 
     /// A 32 bytes digest of the Vector
@@ -254,9 +251,14 @@ impl<C: ConfigZZVec> Vector<C> for ZZVec<C> {
         todo!()
     }
 
+    /// Max supported dimension
+    fn max_dimension(&self) -> usize {
+        C::MAX_DIM
+    }
+
     /// degree of the Vector
     fn dimension(&self) -> usize {
-        C::DIM
+        self.coefficients().len()
     }
 
     /// Expose coefficients as a iter, starting from the constant term (x_0,...x_{d-1})
@@ -270,10 +272,7 @@ impl<C: ConfigZZVec> Vector<C> for ZZVec<C> {
 
     /// From primitive types; without checking the range
     fn from_primitive_types(coeffs: &[<Self::BaseField as Field>::PrimitiveType]) -> Self {
-        let coeffs = coeffs
-            .iter()
-            .map(|c| Self::BaseField::new(c))
-            .collect::<Vec<_>>();
+        let coeffs = coeffs.iter().map(Self::BaseField::new).collect::<Vec<_>>();
         Self { coeffs }
     }
 }
