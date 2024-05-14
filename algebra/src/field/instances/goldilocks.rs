@@ -36,8 +36,28 @@ impl ConfigZZp for ConfigZZpGoldilocks {
         sum
     }
 
+    /// The place where the subtraction algorithm is actually implemented.
+    fn sub_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> Self::PrimitiveType {
+        let (diff, under) = a.overflowing_sub(*b);
+        let (mut diff, under) = diff.overflowing_sub((under as u64) * EPSILON);
+        if under {
+            // NB: self.0 < EPSILON - 1 && rhs.0 > Self::ORDER is necessary but not sufficient for
+            // double-underflow.
+            // This assume does two things:
+            //  1. If compiler knows that either self.0 >= EPSILON - 1 or rhs.0 <= ORDER, then it
+            //     can skip this check.
+            //  2. Hints to the compiler how rare this double-underflow is (thus handled better
+            //     with a branch).
+            util::assume(*a < EPSILON - 1 && *b > Self::MODULUS);
+            util::branch_hint();
+            diff -= EPSILON; // Cannot underflow.
+        }
+        diff
+    }
+
     fn eq_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> bool {
-        *a == *b || *a + Self::MODULUS == *b || *a == *b + Self::MODULUS
+        let diff = if a > b { a - b } else { b - a };
+        diff == 0 || diff == Self::MODULUS
     }
 }
 

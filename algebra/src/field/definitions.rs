@@ -241,6 +241,9 @@ pub trait ConfigZZp: Copy + Debug + Default + Eq + 'static {
     /// The place where the addition algorithm is actually implemented.
     fn add_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> Self::PrimitiveType;
 
+    /// The place where the subtraction algorithm is actually implemented.
+    fn sub_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> Self::PrimitiveType;
+
     /// The place where the equality algorithm is actually implemented.
     fn eq_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> bool;
 }

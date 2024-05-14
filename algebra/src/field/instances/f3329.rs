@@ -8,6 +8,7 @@ impl ConfigZZp for ConfigZZp3329 {
     type PrimitiveType = u16;
     type ProductType = u32;
     const MODULUS: Self::PrimitiveType = 3329;
+
     /// The place where the multiplication algorithm is actually implemented.
     fn mul_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> Self::PrimitiveType {
         (*a as Self::ProductType * *b as Self::ProductType % Self::MODULUS as Self::ProductType)
@@ -21,6 +22,15 @@ impl ConfigZZp for ConfigZZp3329 {
             tmp -= Self::MODULUS
         }
         tmp
+    }
+
+    /// The place where the subtraction algorithm is actually implemented.
+    fn sub_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> Self::PrimitiveType {
+        if a >= b {
+            a - b
+        } else {
+            a + Self::MODULUS - b
+        }
     }
 
     fn eq_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> bool {

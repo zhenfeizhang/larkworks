@@ -1,5 +1,6 @@
 use crate::{
-    ConfigZZVec, ConfigZZVecGoldilocks256, ConfigZZpX, ConfigZZpXGoldilocks256, Goldilocks, NTTDomain, Polynomial, ZZVec, ZZp, ZZpX
+    ConfigZZVec, ConfigZZVecGoldilocks256, ConfigZZpX, ConfigZZpXGoldilocks256, Goldilocks,
+    NTTDomain, Polynomial, ZZVec, ZZp, ZZpX,
 };
 
 impl NTTDomain<ConfigZZpXGoldilocks256, ConfigZZVecGoldilocks256>

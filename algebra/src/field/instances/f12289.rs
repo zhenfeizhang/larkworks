@@ -23,6 +23,15 @@ impl ConfigZZp for ConfigZZp12289 {
         tmp
     }
 
+    /// The place where the subtraction algorithm is actually implemented.
+    fn sub_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> Self::PrimitiveType {
+        if a >= b {
+            a - b
+        } else {
+            a + Self::MODULUS - b
+        }
+    }
+
     fn eq_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> bool {
         a % Self::MODULUS == b % Self::MODULUS
     }

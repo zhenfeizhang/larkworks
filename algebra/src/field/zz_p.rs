@@ -44,11 +44,7 @@ impl<C: ConfigZZp> Sub for ZZp<C> {
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        if self.0 >= rhs.0 {
-            Self(self.0 - rhs.0)
-        } else {
-            Self(self.0 + C::MODULUS - rhs.0)
-        }
+        Self(C::sub_internal(&self.0, &rhs.0))
     }
 }
 
