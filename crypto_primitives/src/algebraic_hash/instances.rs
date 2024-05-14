@@ -1,1 +1,1 @@
-mod ajtai;
+pub mod ajtai;
