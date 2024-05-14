@@ -79,7 +79,7 @@ impl NTTDomain<ConfigZZpXGoldilocks256, ConfigZZVecGoldilocks256>
             m = hm;
         }
         for e in p.iter_mut() {
-            *e = *e * ZZp(Self::ONE_OVER_N);
+            *e *= ZZp(Self::ONE_OVER_N);
         }
         Self::Polynomial::from_coefficients_vec_unchecked(p)
     }
