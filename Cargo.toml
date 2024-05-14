@@ -1,14 +1,14 @@
 [workspace]
 members = [
-    "algebra"
+    "algebra",
+    "crypto_primitives"
 ]
 
 [workspace.package]
 version = "0.1.0"
 authors = [
     "Zhenfei Zhang <zhangzhenfei@gmail.com>",
-    "Alex Xiong <alex.xiong.tech@gmail.com>",
-    "Marcin Górny <meow@hungrycats.studio>"
+    "Alex Xiong <alex.xiong.tech@gmail.com>"
 ]
 edition = "2021"
 license = "" # Decide on license in the future

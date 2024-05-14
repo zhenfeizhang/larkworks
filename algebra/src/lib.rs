@@ -1,7 +1,7 @@
 //! This crate provides arithmetic backend for algebraic objects used in
 //! lattice-based crypto.
 
-#![warn(unused, future_incompatible, nonstandard_style)]
+#![warn(future_incompatible, nonstandard_style)]
 #![deny(missing_docs)]
 
 /// NTT domain

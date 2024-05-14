@@ -61,6 +61,9 @@ pub trait Field:
     /// Returns an element chosen uniformly at random using a user-provided RNG.
     fn random(rng: impl RngCore) -> Self;
 
+    /// Convert the element to its canonical encoding
+    fn canonical(&self) -> Self;
+
     /// Returns true iff this element is zero.
     fn is_zero(&self) -> Choice {
         self.ct_eq(&Self::zero())
@@ -231,4 +234,16 @@ pub trait ConfigZZp: Copy + Debug + Default + Eq + 'static {
 
     /// Modulus
     const MODULUS: Self::PrimitiveType;
+
+    /// The place where the multiplication algorithm is actually implemented.
+    fn mul_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> Self::PrimitiveType;
+
+    /// The place where the addition algorithm is actually implemented.
+    fn add_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> Self::PrimitiveType;
+
+    /// The place where the subtraction algorithm is actually implemented.
+    fn sub_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> Self::PrimitiveType;
+
+    /// The place where the equality algorithm is actually implemented.
+    fn eq_internal(a: &Self::PrimitiveType, b: &Self::PrimitiveType) -> bool;
 }

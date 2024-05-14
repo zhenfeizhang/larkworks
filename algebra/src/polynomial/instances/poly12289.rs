@@ -24,8 +24,5 @@ fn test_poly() {
         .unwrap();
     let poly = Poly12289_512 { coeffs };
     println!("poly {}", poly);
-
     println!("poly {}", poly.clone() + poly);
-
-    // assert!(false)
 }
