@@ -1,3 +1,4 @@
+use ark_std::hash;
 use ark_std::rand::RngCore;
 
 pub trait AlgebraicHash {
