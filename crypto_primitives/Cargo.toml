@@ -13,3 +13,8 @@ repository.workspace = true
 [dependencies]
 ark-std = "0.4.0"
 lark_algebra = { path = "../algebra" }
+
+[dev-dependencies]
+goldilocks = { git = "https://github.com/zhenfeizhang/Goldilocks" }
+ff = "0.13"
+poseidon = { git = "https://github.com/zhenfeizhang/poseidon" }

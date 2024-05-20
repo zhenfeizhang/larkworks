@@ -1,8 +1,5 @@
 use ark_std::rand::RngCore;
-use lark_algebra::{
-    ConfigZZVec, ConfigZZVecGoldilocks256, ConfigZZp, NTTDomain, RingGoldilock256, Vector, ZZVec,
-    ZZp,
-};
+use lark_algebra::{ConfigZZVecGoldilocks256, NTTDomain, RingGoldilock256, Vector, ZZVec};
 
 use crate::algebraic_hash::definitions::AlgebraicHash;
 
@@ -29,10 +26,8 @@ impl AlgebraicHash for AjtaiHash {
 
     /// Setup public parameters
     fn setup(_config: &Self::Configuration, mut rng: impl RngCore) -> Self::Parameters {
-        let modulus = ZZp::from(<ConfigZZVecGoldilocks256 as ConfigZZVec>::BaseConfig::MODULUS);
-
         (0..M)
-            .map(|_| ZZVec::random(&mut rng, Some(modulus)))
+            .map(|_| ZZVec::random(&mut rng, None))
             .collect::<Vec<_>>()
             .try_into()
             .unwrap()
