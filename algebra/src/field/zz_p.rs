@@ -165,7 +165,12 @@ where
 // ========================
 impl<C: ConfigZZp> From<u64> for ZZp<C> {
     fn from(value: u64) -> Self {
-        assert!(value < C::MODULUS.into());
+        assert!(
+            value < C::MODULUS.into(),
+            "value: {}, modulus {}",
+            value,
+            C::MODULUS
+        );
         Self(C::PrimitiveType::from_u64(value).unwrap())
     }
 }
