@@ -2,7 +2,7 @@ use std::time::Instant;
 
 use ark_std::test_rng;
 use ff::Field;
-use lark_algebra::{Goldilocks, Polynomial, RingGoldilock256};
+use lark_algebra::{Polynomial, RingGoldilock256};
 use poseidon::Poseidon;
 
 use crate::{AjtaiHash, AlgebraicHash};
